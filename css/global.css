@@ -1,0 +1,384 @@
+#type1 .content {
+  position: relative;
+  top: calc(50% - 70px);
+}
+#type1 .content h1 {
+  font-weight: 600;
+}
+#type1 .content span {
+  color: white;
+}
+#type1 .content p {
+  margin-top: 5px;
+  position: relative;
+  top: 38%;
+  transform: translate3d(0, 40px, 0);
+  opacity: 0;
+  font: 500 0.8em verdana, sans-serif;
+  color: #dfd5d5;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+#type1 img {
+  width: calc(100% + 60px);
+  transform: translateX(-30px);
+  opacity: 0.8;
+}
+#type1:hover h1 {
+  transform: translate3d(20px, -20px, 0);
+}
+#type1:hover p {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+#type1:hover img {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+#type2 .content {
+  height: 100%;
+  padding-top: 10rem;
+}
+#type2 .content h1 {
+  margin-left: 30px;
+  color: #484848;
+  letter-spacing: -1px;
+  font: 500 2em verdana, sans-serif;
+}
+#type2 .content span {
+  font: bold 1.2em verdana, sans-serif;
+}
+#type2 .content p {
+  position: absolute;
+  bottom: 20px;
+  color: white;
+  transform: translateY(14px);
+  opacity: 0;
+}
+#type2:hover h1 {
+  color: white;
+  transform: translateY(-20px);
+}
+#type2:hover span {
+  color: black;
+  transform: translateY(-20px);
+}
+#type2:hover p {
+  opacity: 1;
+  transform: translateY(-15px);
+}
+#type2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  opacity: 0;
+}
+#type2:hover::before {
+  opacity: 1;
+}
+
+#type3 .content {
+  padding-top: 8rem;
+}
+#type3 .content h1,
+#type3 .content h3 {
+  color: gold;
+  text-align: center;
+}
+#type3 .content h3 {
+  width: max-content;
+  margin: 3rem auto 0;
+  padding: 1rem;
+  color: #cfb51e;
+  transform: translateY(10px);
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+#type3 .content span {
+  text-transform: uppercase;
+  background-color: rgba(255, 255, 255, 0.384);
+  padding: 5px 10px;
+  letter-spacing: -1px;
+  font-size: 1.2em;
+}
+#type3 img {
+  width: 100%;
+}
+#type3:hover h1 {
+  transform: translatey(-10px);
+}
+#type3:hover h3 {
+  opacity: 1;
+  transform: translateY(0);
+}
+#type3:hover img {
+  opacity: 0.9;
+}
+#type3::before {
+  content: "";
+  position: absolute;
+  border-top: 3px solid white;
+  border-bottom: 3px solid white;
+  top: 2em;
+  bottom: 2em;
+  left: 1em;
+  right: 1em;
+  transform: scale(0, 1);
+  /* this one is important. this will be preserve y axis of tag. so x axis's can start grow properly from their point*/
+  transform-origin: left;
+}
+#type3::after {
+  content: "";
+  position: absolute;
+  border-left: 3px solid white;
+  border-right: 3px solid white;
+  top: 1em;
+  bottom: 1em;
+  left: 2em;
+  right: 2em;
+  transform: scale(1, 0);
+  transform-origin: top;
+}
+#type3:hover::before {
+  transform: scale(1);
+  z-index: 1 !important;
+}
+#type3:hover::after {
+  transform: scale(1);
+}
+
+#type4 {
+  padding: unset;
+}
+#type4 .content {
+  border: 1px solid grey;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: inherit;
+  background-color: white;
+  height: 60px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+#type4 .content .fas {
+  font-size: 2em;
+  padding-right: 0.4em;
+}
+#type4 .content p {
+  margin-right: auto;
+  font-size: 1.5em;
+  margin-left: 5px;
+  letter-spacing: -1px;
+}
+#type4 .content span {
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: -2px;
+  font-family: verdana, sans-serif;
+  font-size: 1.1em;
+  color: grey;
+}
+#type4:hover .content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#type5 .content {
+  position: relative;
+  padding-top: 15%;
+  color: wheat;
+}
+#type5 .content h1 {
+  transform-origin: top left;
+  transform: scale(0.8);
+  font-size: 3rem;
+}
+#type5 .content h1::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background-color: wheat;
+  display: block;
+  transform: scale(0, 1);
+  transform-origin: left;
+}
+#type5 .content p {
+  margin-top: 2rem;
+  transform: scale(1, 0);
+  transform-origin: top;
+}
+#type5:hover h1 {
+  transform: scale(1);
+}
+#type5:hover p {
+  transform: scale(1);
+}
+#type5:hover h1::after {
+  transform: scale(1);
+}
+
+#type6 img {
+  width: 100%;
+  height: unset;
+}
+#type6 .content {
+  width: 50%;
+  margin-top: 30%;
+}
+#type6 .content p {
+  text-align: right;
+  border-right: 4px solid white;
+  color: white;
+  transform: translateX(-30px);
+  opacity: 0;
+  padding: 1rem;
+}
+#type6:hover p {
+  opacity: 1;
+  transform: translateX(0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#type7 .content {
+  margin-top: 20%;
+}
+#type7 .content p {
+  display: inline-block;
+  background-color: rgba(247, 250, 86, 0.87);
+  padding: 5px;
+  margin-top: 7px;
+  font-weight: bold;
+  font-size: 0.8em;
+  transform: scale(0, 1);
+  transform-origin: left;
+}
+#type7:hover p {
+  transform: scale(1);
+}
+#type7 p:nth-child(1) {
+  transition-delay: 300ms;
+}
+#type7 p:nth-child(2) {
+  transition-delay: 150ms;
+}
+#type7 p:nth-child(3) {
+  transition-delay: 0ms;
+}
+#type7:hover p:nth-child(1) {
+  transition-delay: 0ms;
+}
+#type7:hover p:nth-child(2) {
+  transition-delay: 150ms;
+}
+#type7:hover p:nth-child(3) {
+  transition-delay: 300ms;
+}
+
+#type8 .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+#type8:hover p, #type8:hover img {
+  transform: scale3d(1.5, 1.5, 1);
+  /*if you play x and y you can get nice things*/
+}
+#type8 p {
+  font-size: 3rem;
+  color: yellow;
+  font-weight: bold;
+}
+
+#type9 .content p {
+  color: white;
+  font-size: 1.2em;
+  width: 150px;
+  position: absolute;
+  bottom: 50px;
+  right: -10px;
+  transform: translate3d(40px, 40px, 0);
+  opacity: 0;
+}
+#type9 img {
+  width: 100%;
+  height: unset;
+}
+#type9::before {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  bottom: -120px;
+  right: -120px;
+  border: 1px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 500px 150px white;
+  /*fourth property is important cause it defines how much shadow gonna be pushed from tag*/
+  transform: scale(0.5);
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.575);
+}
+#type9:hover p {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+#type9:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+*,
+*::before,
+*::after {
+  transition: all 400ms;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: "Courier New", Courier, monospace;
+  background-color: #fafafa;
+  font-size: 1rem;
+}
+
+.block {
+  padding-left: 1rem;
+}
+.block:not(:first-child) {
+  border-top: 1px solid black;
+  margin: 1rem 0;
+}
+
+.container > h1 {
+  padding: 0.5rem 0;
+}
+.container .type {
+  position: relative;
+  overflow: hidden;
+  width: 36rem;
+  height: 24rem;
+  padding: 1rem;
+}
+.container .type:hover {
+  cursor: pointer;
+}
+.container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: -1;
+}
+
+/*# sourceMappingURL=global.css.map */

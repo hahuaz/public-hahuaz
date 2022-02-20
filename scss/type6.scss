@@ -1,0 +1,23 @@
+#type6 {
+  img {
+    width: 100%;
+    height: unset;
+  }
+  .content {
+    width: 50%;
+    margin-top: 30%;
+    p {
+      text-align: right;
+      border-right: 4px solid white;
+      color: white;
+      transform: translateX(-30px);
+      opacity: 0;
+      padding: 1rem;
+    }
+  }
+  &:hover p {
+    opacity: 1;
+    transform: translateX(0);
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}

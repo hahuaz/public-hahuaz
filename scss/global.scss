@@ -1,0 +1,55 @@
+@use 'type1.scss';
+@use 'type2.scss';
+@use 'type3.scss';
+@use 'type4.scss';
+@use 'type5.scss';
+@use 'type6.scss';
+@use 'type7.scss';
+@use 'type8.scss';
+@use 'type9.scss';
+
+*,
+*::before,
+*::after {
+  transition: all 400ms;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #fafafa;
+  font-size: 1rem;
+}
+
+.block {
+  &:not(:first-child) {
+    border-top: 1px solid black;
+    margin: 1rem 0;
+  }
+  padding-left: 1rem;
+}
+
+.container {
+  > h1 {
+    padding: 0.5rem 0;
+  }
+  .type {
+    position: relative;
+    overflow: hidden;
+    width: 36rem;
+    height: 24rem;
+    padding: 1rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: -1;
+  }
+}

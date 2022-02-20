@@ -1,0 +1,42 @@
+#type1 {
+  .content {
+    position: relative;
+    top: calc(50% - 70px);
+    h1 {
+      font-weight: 600;
+    }
+    span {
+      color: white;
+    }
+    p {
+      margin-top: 5px;
+      position: relative;
+      top: 38%;
+      transform: translate3d(0, 40px, 0);
+      opacity: 0;
+      font: 500 0.8em verdana, sans-serif;
+      color: rgb(223, 213, 213);
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+    }
+  }
+
+  img {
+    width: calc(100% + 60px);
+    transform: translateX(-30px);
+    opacity: 0.8;
+  }
+
+  &:hover h1 {
+    transform: translate3d(20px, -20px, 0);
+  }
+
+  &:hover p {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  &:hover img {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

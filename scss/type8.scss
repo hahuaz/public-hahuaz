@@ -1,0 +1,24 @@
+#type8 {
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover p,
+  &:hover img {
+    transform: scale3d(
+      1.5,
+      1.5,
+      1
+    ); /*if you play x and y you can get nice things*/
+  }
+
+  p {
+    font-size: 3rem;
+    color: yellow;
+    font-weight: bold;
+  }
+}

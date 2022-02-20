@@ -1,0 +1,40 @@
+#type9 {
+  .content {
+    p {
+      color: white;
+      font-size: 1.2em;
+      width: 150px;
+      position: absolute;
+      bottom: 50px;
+      right: -10px;
+      transform: translate3d(40px, 40px, 0);
+      opacity: 0;
+    }
+  }
+  img {
+    width: 100%;
+    height: unset;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    bottom: -120px;
+    right: -120px;
+    border: 1px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 500px 150px white; /*fourth property is important cause it defines how much shadow gonna be pushed from tag*/
+    transform: scale(0.5);
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.575);
+  }
+  &:hover p {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  &:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

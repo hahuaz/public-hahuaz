@@ -1,0 +1,41 @@
+#type7 {
+  .content {
+    margin-top: 20%;
+    p {
+      display: inline-block;
+      background-color: rgba(247, 250, 86, 0.87);
+      padding: 5px;
+      margin-top: 7px;
+      font-weight: bold;
+      font-size: 0.8em;
+      transform: scale(0, 1);
+      transform-origin: left;
+    }
+  }
+
+  &:hover p {
+    transform: scale(1);
+  }
+
+  // if hover event is not happened, delay proporties are as follows:
+  p:nth-child(1) {
+    transition-delay: 300ms;
+  }
+  p:nth-child(2) {
+    transition-delay: 150ms;
+  }
+  p:nth-child(3) {
+    transition-delay: 0ms;
+  }
+
+  // if hover event is happened, delay proporties are as follows:
+  &:hover p:nth-child(1) {
+    transition-delay: 0ms;
+  }
+  &:hover p:nth-child(2) {
+    transition-delay: 150ms;
+  }
+  &:hover p:nth-child(3) {
+    transition-delay: 300ms;
+  }
+}
