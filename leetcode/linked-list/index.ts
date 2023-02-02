@@ -180,4 +180,36 @@ myLinkedList.append(2);
 myLinkedList.remove(2);
 console.dir(myLinkedList, { depth: null });
 
+// remove duplicates from sorted link list
+const linkedList = {
+  head: {
+    element: 10,
+    next: {
+      element: 10,
+      next: {
+        element: 30,
+        next: {
+          element: 30,
+          next: null,
+        },
+      },
+    },
+  },
+};
+
+function removeDuplicates(linkedList: any) {
+  let curr = linkedList.head;
+
+  while (curr?.next) {
+    if (curr.element === curr.next.element) {
+      curr.next = curr.next.next;
+    }
+    curr = curr.next;
+  }
+
+  return linkedList;
+}
+
+console.log(removeDuplicates(linkedList));
+
 export = {};

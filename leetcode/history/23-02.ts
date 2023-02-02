@@ -58,3 +58,38 @@ function numberOfSteps(num: number): number {
 
   return numberOfSteps;
 }
+
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+// find the middle node in linked list
+function middleNode(head: ListNode | null): ListNode | null {
+  let currNode = head;
+  let length = 1;
+  while (currNode.next) {
+    currNode = currNode.next;
+    length++;
+  }
+
+  let nodeIndex = 0;
+
+  if (length % 2 === 0) {
+    nodeIndex = length / 2;
+  } else {
+    nodeIndex = Math.floor(length / 2);
+  }
+  console.log(nodeIndex);
+
+  let middleNode = head;
+  for (let i = 0; i < nodeIndex; i++) {
+    middleNode = middleNode.next;
+  }
+
+  return middleNode;
+}
