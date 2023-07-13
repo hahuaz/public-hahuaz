@@ -13,13 +13,7 @@ class LinkedList {
   public tail: Node | undefined;
   public length: number;
 
-  constructor(value?: unknown) {
-    if (!value) {
-      this.head = undefined;
-      this.tail = undefined;
-      this.length = 0;
-      return;
-    }
+  constructor(value: unknown) {
     const node = new Node(value);
     this.head = node;
     this.tail = node;
@@ -32,14 +26,12 @@ class LinkedList {
 
     if (!this.length) {
       this.head = node;
-      this.tail = node;
     } else {
       this.tail!.next = node;
-      this.tail = node;
     }
 
+    this.tail = node;
     this.length++;
-
     return node;
   }
 
