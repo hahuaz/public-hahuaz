@@ -204,4 +204,4 @@ function removeDuplicates(linkedList: any) {
 
 console.log(removeDuplicates(linkedList));
 
-export = {};
+export default {};
