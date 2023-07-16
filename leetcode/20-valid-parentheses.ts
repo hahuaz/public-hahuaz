@@ -1,5 +1,5 @@
 function isValid(s: string): boolean {
-  const mapper = {
+  const mapper: { [key: string]: string } = {
     '(': ')',
     '{': '}',
     '[': ']',
