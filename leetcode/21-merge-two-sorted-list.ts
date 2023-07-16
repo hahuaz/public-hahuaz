@@ -2,18 +2,19 @@ function mergeTwoLists(
   list1: ListNode | null,
   list2: ListNode | null
 ): ListNode | null {
-  let prevNode = new ListNode(-1);
-  const headNode = prevNode;
+  const headNode = new ListNode(-1);
+  let prevNode = headNode;
 
   // while two list are not null
   while (list1 && list2) {
-    console.log('inside while');
     if (list1.val < list2.val) {
       prevNode.next = list1;
+
       list1 = list1.next;
       prevNode = prevNode.next;
     } else {
       prevNode.next = list2;
+
       list2 = list2.next;
       prevNode = prevNode.next;
     }
