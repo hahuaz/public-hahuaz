@@ -1,4 +1,4 @@
-function isPrime(num) {
+function isPrime(num: number): boolean {
   if (num < 2) {
     return false;
   }
@@ -12,7 +12,7 @@ function isPrime(num) {
   return true;
 }
 
-function printPrimeNumbers(n) {
+function printPrimeNumbers(n: number): void {
   for (let i = 1; i <= n; i++) {
     if (isPrime(i)) {
       console.log(i);
@@ -75,3 +75,45 @@ function insertionSort(arr: number[]): number[] {
   // Return the sorted array
   return arr;
 }
+
+// -------------------------
+
+// Dictionary to hold hexadecimal characters and their decimal equivalents
+const hexNumbers: { [key: string]: number } = {
+  "0": 0,
+  "1": 1,
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "9": 9,
+  a: 10,
+  b: 11,
+  c: 12,
+  d: 13,
+  e: 14,
+  f: 15,
+};
+
+function hexToDecimal(hex: string): number {
+  let decimalValue = 0;
+  const hexLowercase = hex.toLowerCase();
+
+  // Iterate through the characters in the hexadecimal string starting from the right
+  for (let i = hexLowercase.length - 1; i >= 0; i--) {
+    const char = hexLowercase[i];
+    const digitValue = hexNumbers[char];
+
+    // Calculate the decimal value by adding the current digit value multiplied by the appropriate power of 16
+    decimalValue += digitValue * Math.pow(16, hexLowercase.length - 1 - i);
+  }
+
+  return decimalValue;
+}
+
+const hexString = "1A3";
+const decimalValue = hexToDecimal(hexString);
+console.log(decimalValue); // Output: 419
