@@ -118,3 +118,47 @@ function hexToDecimal(hex: string): number {
 const hexString = "1A3";
 const decimalValue = hexToDecimal(hexString);
 console.log(decimalValue); // Output: 419
+
+// -------------------------
+
+// Efficiently Store Long String with Repeated Characters
+
+// You are given a long string that contains only uppercase letters.
+// Your task is to write a function that efficiently counts the occurrences of repeated characters and stores the results in a memory-efficient way.
+// The function should return an array of arrays, where each inner array consists of two elements: the repeated character and its corresponding count.
+
+// Example:
+// Input: "AAAABCCCCCDDDDDDDDD"
+// Output: [['A', 4], ['B', 1], ['C', 5], ['D', 9]]
+
+type CharacterCount = [string, number];
+
+function storeRepeatedCharacters(s: string): CharacterCount[] {
+  const result: CharacterCount[] = [];
+  let currentChar = s[0];
+  let count = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+    if (char === currentChar) {
+      count++;
+    } else {
+      // push previous character and its count to result array
+      result.push([currentChar, count]);
+
+      // reset current character and count
+      currentChar = char;
+      count = 1;
+    }
+  }
+
+  // push the last character and its count to result array
+  result.push([currentChar, count]);
+
+  return result;
+}
+
+// Test the function with the given example
+const inputString = "AAAABCCCCCDDDDDDDDDE";
+const result = storeRepeatedCharacters(inputString);
+console.log(result); // Output: [['A', 4], ['B', 1], ['C', 5], ['D', 9], ['E', 1]]
