@@ -106,9 +106,10 @@ function hexToDecimal(hex: string): number {
   for (let i = hexLowercase.length - 1; i >= 0; i--) {
     const char = hexLowercase[i];
     const digitValue = hexNumbers[char];
+    const exponent = hexLowercase.length - 1 - i;
 
     // Calculate the decimal value by adding the current digit value multiplied by the appropriate power of 16
-    decimalValue += digitValue * Math.pow(16, hexLowercase.length - 1 - i);
+    decimalValue += digitValue * Math.pow(16, exponent);
   }
 
   return decimalValue;
