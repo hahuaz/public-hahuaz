@@ -49,10 +49,6 @@ export default function CurrencySelect(
           onBlur={() => setIsSelectFocused(false)}
           onChange={handleSelectChange}
           disabled={isDisabled}
-          style={{
-            transitionDuration: "900ms",
-            transformOrigin: "mid",
-          }}
           className={` border-b-2 font-semibold outline-none ${
             isSelectFocused ? "border-blue-500" : "border-gray-400"
           }`}
