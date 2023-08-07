@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const top100Films = [
   { label: "The Shawshank Redemption", year: 1994 },
@@ -127,12 +127,19 @@ const top100Films = [
   { label: "3 Idiots", year: 2009 },
   { label: "Monty Python and the Holy Grail", year: 1975 },
 ];
+
+interface IMovie {
+  label: string;
+  year: number;
+}
+
 export default function Autocomplete(
   { isDisabled }: { isDisabled: boolean } = { isDisabled: false },
 ) {
   const [nameInput, setNameInput] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+  const [movieData, setMovieData] = useState<IMovie[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -140,10 +147,21 @@ export default function Autocomplete(
   };
 
   const handleOptionSelect = (option: string) => {
-    console.log("handle option click");
     setSelectedOption(option);
     setNameInput(option);
   };
+
+  const fetchMovies = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    setMovieData(top100Films);
+  };
+
+  // search when input focused first time
+  useEffect(() => {
+    if (!isInputFocused || movieData.length) return;
+    fetchMovies();
+    return () => {};
+  }, [isInputFocused]);
 
   return (
     <div className="bg-white p-32">
@@ -169,21 +187,24 @@ export default function Autocomplete(
             (nameInput || isInputFocused) && "border-b-2 border-blue-500"
           }`}
         />
-        {isInputFocused && (
-          <div className="absolute left-0 right-0 top-full mt-1 max-h-[250px] overflow-y-scroll rounded-md bg-white p-2 shadow-md">
-            {top100Films.map((film, index) => (
-              <div
-                key={index}
-                className={`cursor-pointer py-1 hover:bg-gray-100 ${
-                  selectedOption === film.label ? "bg-gray-100" : ""
-                }`}
-                onMouseDown={() => handleOptionSelect(film.label)} // use onMouseDown instead of onClick. onClick won't work because label will lose focus and window will be closed before click occurs
-              >
-                {film.label}
-              </div>
-            ))}
-          </div>
-        )}
+        {isInputFocused &&
+          (movieData.length ? (
+            <div className="absolute left-0 right-0 top-full mt-1 max-h-[250px] overflow-y-scroll rounded-md bg-white p-2 shadow-md">
+              {movieData.map((film, index) => (
+                <div
+                  key={index}
+                  className={`cursor-pointer py-1 hover:bg-gray-100 ${
+                    selectedOption === film.label ? "bg-gray-100" : ""
+                  }`}
+                  onMouseDown={() => handleOptionSelect(film.label)} // use onMouseDown instead of onClick. onClick won't work because label will lose focus and window will be closed before click occurs
+                >
+                  {film.label}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>Loading..</div>
+          ))}
       </div>
     </div>
   );
