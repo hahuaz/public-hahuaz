@@ -1,11 +1,11 @@
 import React from "react";
 
-import Select from "@/components/Select";
+import Autocomplete from "@/components/Autocomplete";
 
 export default function test() {
   return (
     <div>
-      <Select isDisabled={false} />
+      <Autocomplete isDisabled={false} />
     </div>
   );
 }
