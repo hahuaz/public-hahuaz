@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
-export default function Input() {
+export default function Input(
+  { isDisabled }: { isDisabled: boolean } = { isDisabled: false },
+) {
   const [nameInput, setNameInput] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -14,7 +16,7 @@ export default function Input() {
             "-translate-y-5 text-xs text-blue-500 "
           }`}
         >
-          Name
+          Name *
         </label>
         <input
           type="text"
@@ -23,6 +25,7 @@ export default function Input() {
           onFocus={() => setIsInputFocused(true)}
           onBlur={() => setIsInputFocused(false)}
           onChange={(e) => setNameInput(e.target.value)}
+          disabled={isDisabled}
           className={`border-0 border-b outline-none ${
             (nameInput || isInputFocused) && "border-b-2 border-blue-500"
           }`}
