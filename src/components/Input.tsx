@@ -12,7 +12,6 @@ export default function Input(
     const inputValue = e.target.value;
     setNameInput(inputValue);
 
-    // Validate input and set validation state
     const words = inputValue.trim().split(/\s+/);
     setIsContainingTwoWords(words.length >= 2);
     setIsWordLengthValid(words.every((word) => word.length >= 2));
