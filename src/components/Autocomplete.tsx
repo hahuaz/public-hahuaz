@@ -140,6 +140,7 @@ export default function Autocomplete(
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [movieData, setMovieData] = useState<IMovie[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -152,8 +153,10 @@ export default function Autocomplete(
   };
 
   const fetchMovies = async () => {
+    setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 500));
     setMovieData(top100Films);
+    setIsLoading(false);
   };
 
   // search when input focused first time
@@ -187,24 +190,25 @@ export default function Autocomplete(
             (nameInput || isInputFocused) && "border-b-2 border-blue-500"
           }`}
         />
-        {isInputFocused &&
-          (movieData.length ? (
-            <div className="absolute left-0 right-0 top-full mt-1 max-h-[250px] overflow-y-scroll rounded-md bg-white p-2 shadow-md">
-              {movieData.map((film, index) => (
+        {isInputFocused && (
+          <div className="absolute left-0 right-0 top-full mt-1 max-h-[250px] overflow-y-scroll rounded-md bg-white p-2 shadow-md">
+            {isLoading ? ( // Check if loading
+              <div>Loading...</div>
+            ) : movieData.length ? (
+              movieData.map((film, index) => (
                 <div
                   key={index}
                   className={`cursor-pointer py-1 hover:bg-gray-100 ${
                     selectedOption === film.label ? "bg-gray-100" : ""
                   }`}
-                  onMouseDown={() => handleOptionSelect(film.label)} // use onMouseDown instead of onClick. onClick won't work because label will lose focus and window will be closed before click occurs
+                  onMouseDown={() => handleOptionSelect(film.label)}
                 >
                   {film.label}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div>Loading..</div>
-          ))}
+              ))
+            ) : null}
+          </div>
+        )}
       </div>
     </div>
   );
