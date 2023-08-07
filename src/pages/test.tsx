@@ -1,11 +1,20 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
-import RippleButton from "@/components/RippleButton";
+import { ButtonWithLoading } from "@/components";
 
-export default function test() {
+export default function Test() {
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <div className="bg-white p-24 text-black">
-      <RippleButton />
+      <ButtonWithLoading
+        isLoading={isLoading}
+        onClick={() => {
+          setIsLoading(true);
+        }}
+      >
+        clicke me!
+      </ButtonWithLoading>
     </div>
   );
 }

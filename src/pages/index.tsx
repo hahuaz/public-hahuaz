@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { useToast } from "@/context/ToastContext";
 
-import Modal from "../components/Modal";
+import { Modal } from "../components";
 
 export default function Home() {
   const { showToast } = useToast();
@@ -20,14 +20,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">
-        <h1 className="text-3xl font-semibold mb-4">My Next.js App</h1>
+        <h1 className="mb-4 text-3xl font-semibold">My Next.js App</h1>
         <div className="flex flex-col gap-6 divide-y-2 ">
           <div>
             <h2>Modal Component</h2>
             <button
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+              className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
               onClick={openModal}
             >
               Open Modal
@@ -50,7 +50,7 @@ export default function Home() {
           <div className="pt-6">
             <h2>Toast Component</h2>
             <button
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+              className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
               onClick={() =>
                 showToast({
                   message: "hello toast!",

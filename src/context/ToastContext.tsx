@@ -1,6 +1,6 @@
 import React, { createContext, useContext, ReactNode, useState } from "react";
 
-import Toast from "@/components/Toast";
+import { Toast } from "@/components";
 
 type showToastProps = {
   message: string;
