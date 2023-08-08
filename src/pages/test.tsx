@@ -1,20 +1,16 @@
 "use client";
 import React, { useState } from "react";
 
-import { ButtonWithLoading } from "@/components";
+import { motion } from "framer-motion";
+import { AnimatedSelect } from "@/components";
 
 export default function Test() {
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(1);
+
   return (
-    <div className="bg-white p-24 text-black">
-      <ButtonWithLoading
-        isLoading={isLoading}
-        onClick={() => {
-          setIsLoading(true);
-        }}
-      >
-        clicke me!
-      </ButtonWithLoading>
+    <div className="relative min-h-screen bg-white text-black">
+      <AnimatedSelect></AnimatedSelect>
     </div>
   );
 }
