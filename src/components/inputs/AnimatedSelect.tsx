@@ -33,7 +33,7 @@ export default function AnimatedSelect() {
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center gap-2"
           >
-            Animated Menu
+            Animated Selet
             <motion.div
               variants={{
                 open: { rotate: 180 },
