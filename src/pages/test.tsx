@@ -2,15 +2,18 @@
 import React, { useState } from "react";
 
 import { motion } from "framer-motion";
-import { AnimatedSelect } from "@/components";
+import AnimateDrawer from "@/components/AnimatedDrawer";
 
 export default function Test() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(1);
 
   return (
-    <div className="relative min-h-screen bg-white text-black">
-      <AnimatedSelect></AnimatedSelect>
-    </div>
+    <>
+      <AnimateDrawer></AnimateDrawer>
+      <div className="min-h-[1500px] bg-red-400"></div>
+      <div className="min-h-[1500px] bg-green-400"></div>
+      <div className="min-h-[1500px] bg-blue-400"></div>
+    </>
   );
 }

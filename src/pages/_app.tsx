@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   ];
   return (
     <ToastProvider>
-      <Navbar links={links} />
+      {/* <Navbar links={links} /> */}
 
       <Component {...pageProps} />
     </ToastProvider>
