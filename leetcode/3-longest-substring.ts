@@ -16,24 +16,22 @@
  */
 
 function lengthOfLongestSubstring(s: string): number {
-  const mapping: { [key: string]: number } = {};
+  // {char: lastSeenCharIndex}
+  const map: Record<string, number> = {};
 
   let max = 0;
   let left = 0;
   let right = 0;
 
   for (let i = 0; i < s.length; i++) {
-    const char = s[i];
+    const curChar = s[i];
 
-    /**
-     * If the character is seen before, move the left pointer to the right of
-     * it to avoid repeating characters.
-     */
-    if (mapping[char] >= left) {
-      left = mapping[char] + 1;
+    // If the character is seen before, move the left pointer to the right of it to avoid repeating characters.
+    if (map[curChar] >= left) {
+      left = map[curChar] + 1;
     }
 
-    mapping[char] = i;
+    map[curChar] = i;
     right = i;
 
     max = Math.max(max, right - left + 1);
@@ -46,7 +44,7 @@ const test1 = lengthOfLongestSubstring("abcabcbb");
 if (test1 === 3) {
   console.log("test1 passed");
 } else {
-  console.log("test1 failed");
+  console.error("test1 failed");
 }
 
 const test2 = lengthOfLongestSubstring("bbbbb");
@@ -54,12 +52,12 @@ const test2 = lengthOfLongestSubstring("bbbbb");
 if (test2 === 1) {
   console.log("test2 passed");
 } else {
-  console.log("test2 failed");
+  console.error("test2 failed");
 }
 
 const test3 = lengthOfLongestSubstring("abcbaabcd");
 if (test3 === 4) {
   console.log("test3 passed");
 } else {
-  console.log("test3 failed");
+  console.error("test3 failed");
 }
