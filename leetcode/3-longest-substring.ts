@@ -26,8 +26,8 @@ function lengthOfLongestSubstring(s: string): number {
   for (let i = 0; i < s.length; i++) {
     const curChar = s[i];
 
-    // If the character is seen before, move the left pointer to the right of it to avoid repeating characters.
-    if (map[curChar] >= left) {
+    // If the character is seen before and it is in the current substring, move the left pointer to the right of it to avoid repeating characters.
+    if (map[curChar] !== undefined && map[curChar] >= left) {
       left = map[curChar] + 1;
     }
 
