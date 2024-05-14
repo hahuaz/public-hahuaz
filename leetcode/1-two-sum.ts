@@ -11,16 +11,16 @@ function twoSum(nums: number[], target: number): number[] | undefined {
   const map: Record<number, number> = {};
 
   for (let i = 0; i < nums.length; i++) {
-    const num = nums[i];
-    const diff = target - num;
+    const curNum = nums[i];
+    const diff = target - curNum;
 
     // if diff is seen before, return the indices
-    if (map[diff]) {
+    if (map[diff] !== undefined) {
       return [map[diff], i];
     }
 
-    // store the num in map to look for its pair in the next iterations
-    map[num] = i;
+    // store the curNum in map to look for its pair in the next iterations
+    map[curNum] = i;
   }
 }
 
