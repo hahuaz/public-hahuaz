@@ -8,7 +8,7 @@
  */
 
 function twoSum(nums: number[], target: number): number[] | undefined {
-  const map: { [key: number]: number } = {};
+  const map: Record<number, number> = {};
 
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
