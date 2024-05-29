@@ -136,3 +136,35 @@ if (
 }
 
 // -------------------------
+
+// write me a function that sanitizes the given object by removing specified properties.
+
+/**
+ * Sanitizes the given object by removing specified properties.
+ *
+ * @param {T} obj - The object to be sanitized.
+ * @param {Array<keyof T>} props - An array of properties to be removed from the object.
+ * @returns {Partial<T>} - The sanitized object.
+ */
+function sanitizeObject<T>(obj: T, props: Array<keyof T>): Partial<T> {
+  const sanitizedObj = { ...obj };
+  props.forEach((prop) => {
+    delete sanitizedObj[prop];
+  });
+  return sanitizedObj;
+}
+
+// Example usage:
+interface User {
+  name: string;
+  age: number;
+  password: string;
+}
+
+const obj: User = { name: "Alice", age: 25, password: "secret" };
+const propsToSanitize: Array<keyof User> = ["password"];
+const sanitizedObj = sanitizeObject(obj, propsToSanitize);
+
+console.log(sanitizedObj); // { name: 'Alice', age: 25 }
+
+// -------------------------
