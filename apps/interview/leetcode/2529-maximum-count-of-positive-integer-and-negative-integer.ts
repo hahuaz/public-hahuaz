@@ -1,4 +1,4 @@
-function maximumCount(nums: number[]): number {
+function _maximumCount(nums: number[]): number {
   let positiveCount = 0;
   let negativeCount = 0;
 
@@ -13,7 +13,7 @@ function maximumCount(nums: number[]): number {
   return Math.max(positiveCount, negativeCount);
 }
 
-function maximumCountImproved(nums: number[]): number {
+function _maximumCountImproved(nums: number[]): number {
   let positiveCount = 0;
   let negativeCount = 0;
 
@@ -29,34 +29,34 @@ function maximumCountImproved(nums: number[]): number {
   return Math.max(positiveCount, negativeCount);
 }
 
+// binary search for the index of smallest positive number
+function smallestPositive(nums: number[]) {
+  let left = 0,
+    right = nums.length - 1;
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+    if (nums[mid] > 0) right = mid;
+    else left = mid + 1;
+  }
+  return left;
+}
+
+// binary search for the index of largest negative number
+function largestNegative(nums: number[]) {
+  let left = 0,
+    right = nums.length - 1;
+  while (left < right) {
+    const mid = Math.ceil((left + right) / 2);
+    if (nums[mid] < 0) left = mid;
+    else right = mid - 1;
+  }
+  return right;
+}
+
 // using binary search
 function maximumCountBinary(nums: number[]) {
   // if nums contains all positive or negative return the length
   if (nums[0] > 0 || nums[nums.length - 1] < 0) return nums.length;
-
-  // binary search for the index of smallest positive number
-  function smallestPositive(nums: any) {
-    let left = 0,
-      right = nums.length - 1;
-    while (left < right) {
-      const mid = Math.floor((left + right) / 2);
-      if (nums[mid] > 0) right = mid;
-      else left = mid + 1;
-    }
-    return left;
-  }
-
-  // binary search for the index of largest negative number
-  function largestNegative(nums: any) {
-    let left = 0,
-      right = nums.length - 1;
-    while (left < right) {
-      const mid = Math.ceil((left + right) / 2);
-      if (nums[mid] < 0) left = mid;
-      else right = mid - 1;
-    }
-    return right;
-  }
 
   return Math.max(
     nums.length - smallestPositive(nums),

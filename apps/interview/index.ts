@@ -1,3 +1,3 @@
-const myvar = "Hello World";
+const _myvar = "Hello World";
 
 console.log("Hello World");

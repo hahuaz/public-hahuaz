@@ -1,8 +1,8 @@
-function isValid(s: string): boolean {
+function _isValid(s: string): boolean {
   const mapper: { [key: string]: string } = {
-    '(': ')',
-    '{': '}',
-    '[': ']',
+    "(": ")",
+    "{": "}",
+    "[": "]",
   };
 
   const stack: string[] = [];

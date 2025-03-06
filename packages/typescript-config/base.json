@@ -10,13 +10,14 @@
     "isolatedModules": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "strict": true
+
+    // type checking
+    "strict": true,
+    "noUnusedLocals": false, // custom eslint rule is in place for this
+    "noUnusedParameters": false // custom eslint rule is in place for this
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

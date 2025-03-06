@@ -26,28 +26,35 @@ class ListNode {
  * Explanation: 342 + 465 = 807
  */
 
-function addTwoNumbers(l1: ListNode | null, l2: ListNode | null) {
+function addTwoNumbers(
+  l1: ListNode | null,
+  l2: ListNode | null
+): ListNode | null {
   const headNode = new ListNode(0);
   let prevNode = headNode;
 
   let carry = 0;
   while (l1 || l2 || carry) {
-    const sum = (l1?.val || 0) + (l2?.val || 0) + carry;
-    sum > 9 ? (carry = 1) : (carry = 0);
+    const sum = (l1?.val ?? 0) + (l2?.val ?? 0) + carry;
+    if (sum > 9) {
+      carry = 1;
+    } else {
+      carry = 0;
+    }
     const digit = sum % 10;
     prevNode.next = new ListNode(digit);
     prevNode = prevNode.next;
 
-    l1 = l1?.next || null;
-    l2 = l2?.next || null;
+    l1 = l1?.next ?? null;
+    l2 = l2?.next ?? null;
   }
 
   return headNode.next;
 }
 
 const test1 = addTwoNumbers(
-  { val: 2, next: { val: 4, next: { val: 3, next: null } } },
-  { val: 5, next: { val: 6, next: { val: 4, next: null } } }
+  new ListNode(2, new ListNode(4, new ListNode(3))),
+  new ListNode(5, new ListNode(6, new ListNode(4)))
 );
 
 if (

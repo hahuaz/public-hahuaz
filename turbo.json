@@ -1,18 +1,24 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
+    "ts:check": {
+      "dependsOn": []
+    },
+    "lint": {
+      "dependsOn": [
+        "^build", // The `^` prefix means build package dependencies first
+        "ts:check"
+      ]
+    },
     "build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "ts:check", "lint"],
       "env": ["NEXT_PUBLIC_API_HOST"]
     },
     "test": {
       "outputs": ["coverage/**"],
       "dependsOn": []
-    },
-    "lint": {
-      "dependsOn": ["^build"]
     },
     "dev": {
       "cache": false,

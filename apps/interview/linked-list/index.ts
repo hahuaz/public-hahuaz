@@ -189,7 +189,16 @@ const linkedList = {
   },
 };
 
-function removeDuplicates(linkedList: any) {
+interface SimpleListNode {
+  element: number;
+  next: SimpleListNode | null;
+}
+
+interface SimpleLinkedList {
+  head: SimpleListNode | null;
+}
+
+function removeDuplicates(linkedList: SimpleLinkedList): SimpleLinkedList {
   let curr = linkedList.head;
 
   while (curr?.next) {

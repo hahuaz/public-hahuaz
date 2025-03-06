@@ -1,4 +1,4 @@
-function search(nums: number[], target: number): number {
+function _search(nums: number[], target: number): number {
   let left = 0;
   let right = nums.length;
 
@@ -17,7 +17,7 @@ function search(nums: number[], target: number): number {
 }
 
 // binary search for the index of smallest positive number
-function smallestPositive(nums: any) {
+function smallestPositive(nums: number[]) {
   let left = 0,
     right = nums.length - 1;
   while (left < right) {
@@ -29,7 +29,7 @@ function smallestPositive(nums: any) {
 }
 
 // binary search for the index of largest negative number
-function largestNegative(nums: any) {
+function largestNegative(nums: number[]) {
   let left = 0,
     right = nums.length - 1;
   while (left < right) {
