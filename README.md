@@ -23,7 +23,7 @@
 # Turborepo features:
 
 1. Build System and Task Running:
-    - Orchestrates and optimizes build processes across packages by caching outputs of tasks. For example, if a package is already built, it will not be built again. So make sure to utilize turbo commands instead of running `pnpm build` directly.
+    - Orchestrates and optimizes build processes across packages by caching outputs of tasks. For example, if a package is already built, it will not be built again. So make sure to utilize turbo commands instead of running utilities like `tsc` or `jest` directly.
     - Runs tasks in parallel when possible
 
 2. Pipeline Configuration:
