@@ -10,15 +10,15 @@
         "ts:check"
       ]
     },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": ["lint"]
+    },
     "build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
-      "dependsOn": ["^build", "ts:check", "lint"],
+      "dependsOn": ["^build", "test"],
       "env": ["NEXT_PUBLIC_API_HOST"]
-    },
-    "test": {
-      "outputs": ["coverage/**"],
-      "dependsOn": []
     },
     "dev": {
       "cache": false,

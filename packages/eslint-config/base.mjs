@@ -9,16 +9,15 @@ import tseslint from "typescript-eslint";
  * @type {import("eslint").Linter.Config}
  * */
 export const config = [
-  js.configs.recommended,
-  eslintConfigPrettier,
-  ...tseslint.configs.recommended,
+  js.configs.recommended, // recommended lint rules for JavaScript
+  eslintConfigPrettier, // Prevents ESLint from reporting style-related issues that Prettier handles.
+  ...tseslint.configs.recommended, // recommended lint rules for TypeScript
   {
     plugins: {
       turbo: turboPlugin,
     },
     rules: {
       "turbo/no-undeclared-env-vars": "warn",
-      "no-unused-vars": "off", // Note: you must disable the base rule as it can report incorrect errors
       "@typescript-eslint/no-unused-vars": [
         "error",
         {

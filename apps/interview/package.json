@@ -1,13 +1,12 @@
 {
-  "name": "leetcode",
-  "version": "1.0.0",
+  "name": "interview",
+  "version": "0.0.0",
   "type": "module",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch index.ts --clear-screen=false",
-    "lint": "eslint . --max-warnings 0",
-    "ts:check": "tsc --noEmit"
+    "ts:check": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0"
   },
   "keywords": [],
   "author": "",
@@ -15,8 +14,6 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^8.26.0",
-    "@typescript-eslint/parser": "^8.26.0",
     "eslint": "^9.21.0",
     "tsx": "^4.19.3",
     "typescript": "5.8.2"
