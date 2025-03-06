@@ -1,8 +1,7 @@
 # Pnpm workspace features:
 
 1. Local Package Linking with Workspace Protocol: 
-    - Automatically links internal packages within the workspace.
-    - Use the `workspace:*` syntax in `package.json` to reference local packages without publishing them to npm during development.
+    - Automatically links internal packages within the workspace. For example, if you change base tsconfig in the `@repo/typescript-config` package, the changes will be reflected in all packages that depend on it without any additional steps.
     - Example: 
       Packagename of `packages/ui` is `@repo/ui` in the workspace. Following can be added into an app's `package.json` to use it.
       ```json
