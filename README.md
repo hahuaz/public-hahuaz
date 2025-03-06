@@ -1,6 +1,61 @@
-# Turborepo Docker starter
+# Pnpm workspace features:
 
-This is a community-maintained example. If you experience a problem, please submit a pull request with a fix. GitHub Issues will be closed.
+1. Local Package Linking with Workspace Protocol: 
+    - Automatically links internal packages within the workspace.
+    - Use the `workspace:*` syntax in `package.json` to reference local packages without publishing them to npm during development.
+    - Example: 
+      Packagename of `packages/ui` is `@repo/ui` in the workspace. Following can be added into an app's `package.json` to use it.
+      ```json
+      {
+        "dependencies": {
+          "@repo/ui": "workspace:*"
+        }
+      }
+      ```
+
+2. Dependency Hoisting: 
+    - Centralizes shared dependencies in a single location.
+    - Dependencies are stored in `node_modules/.pnpm`, reducing duplication across workspace packages.
+    - Saves disk space and ensures version consistency across all packages.
+
+3. Optimized Installation: 
+    - Speeds up the installation process by using shared dependencies, avoiding redundant installs.
+
+# Turborepo features:
+
+1. Build System and Task Running:
+    - Orchestrates and optimizes build processes across packages by caching outputs of tasks. For example, if a package is already built, it will not be built again. So make sure to utilize turbo commands instead of running `pnpm build` directly.
+    - Runs tasks in parallel when possible
+
+2. Pipeline Configuration:
+    - Defines task dependencies and their execution order in turbo.json. For example, when you run `test` task via `turbo test`, it will first run the `build` task and then run the `test` task.
+    - Example:
+      ```json
+      {
+        "pipeline": {
+          "build": {
+            "dependsOn": ["^build"],  // The `^` prefix means build package dependencies first
+            "outputs": ["dist/**"]    // Cache the build output
+          },
+          "test": {
+            "dependsOn": ["build"],   // the build task (not dependencies) must run first
+            "outputs": []             // Don't cache test results
+          }
+        }
+      }
+      ```
+
+3. Workspace Management:
+    - Integrates with pnpm workspaces for package management
+    - Provides workspace-aware commands and utilities. For example, to build only the `@repo/ui` package, the following command can be used:
+      ```sh
+      pnpm turbo run build --filter=@repo/ui
+      ```
+
+4. Development Experience:
+    - Provides `turbo dev` for running development servers
+    - Enables running multiple dev servers in parallel
+    - Supports hot reloading across packages
 
 ## Using this example
 
@@ -63,7 +118,7 @@ This example includes optional remote caching. In the Dockerfiles of the apps, u
 
 You can test this behavior using a command like:
 
-`docker build -f apps/web/Dockerfile . --build-arg TURBO_TEAM=“your-team-name” --build-arg TURBO_TOKEN=“your-token“ --no-cache`
+`docker build -f apps/web/Dockerfile . --build-arg TURBO_TEAM="your-team-name" --build-arg TURBO_TOKEN="your-token" --no-cache`
 
 ### Utilities
 
