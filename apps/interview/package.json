@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch index.ts --clear-screen=false",
+    "dev": "tsx watch --clear-screen=false index.ts",
     "ts:check": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0"
   },

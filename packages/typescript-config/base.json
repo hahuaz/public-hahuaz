@@ -2,22 +2,27 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "composite": false,
-    "declaration": true,
-    "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-
     "preserveWatchOutput": true,
-    "skipLibCheck": true,
+
+    /* Modules */
+    "target": "ES2020" /* Set the JavaScript language version for emitted code. For example, if you use ES2020, the generated code will preserve ES2020 features such as optional chaining, nullish coalescing */,
+    "module": "NodeNext" /* This determines the module system used in the output. For example, if you use commonjs, the generated code will use require and module.exports. */,
+    "moduleResolution": "NodeNext" /* Determines which algorithm to use to resolve modules during compilation. "NodeNext" follows Node.js's ESM resolution strategy, considering file extensions and the nearest package.json's `type` field to determine whether a module should be treated as ESM or CommonJS. */,
+
+    /* Emit */
+    "declaration": true /* Generate `.d.ts` (declaration) files, which describe the types of exported code. Useful for creating libraries or sharing types without exposing source code. */,
+    "declarationMap": true /* Better debugging experience by mapping declarations to their original source files. */,
+    "sourceMap": true /* Create source map files for emitted JavaScript files. */,
 
     // type checking
     "strict": true,
     "noUnusedLocals": false, // custom eslint rule is in place for this
-    "noUnusedParameters": false // custom eslint rule is in place for this
+    "noUnusedParameters": false, // custom eslint rule is in place for this
+    "skipLibCheck": true
   },
   "exclude": ["node_modules"]
 }
