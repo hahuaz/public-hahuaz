@@ -17,6 +17,7 @@
     "declaration": true /* Generate `.d.ts` (declaration) files, which describe the types of exported code. Useful for creating libraries or sharing types without exposing source code. */,
     "declarationMap": true /* Better debugging experience by mapping declarations to their original source files. */,
     "sourceMap": true /* Create source map files for emitted JavaScript files. */,
+    "noEmit": true /* Do not emit JavaScript files. */,
 
     // type checking
     "strict": true,

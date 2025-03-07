@@ -56,6 +56,13 @@
     - Enables running multiple dev servers in parallel
     - Supports hot reloading across packages
 
+# Backend Features
+1. Development Mode with tsup
+In development mode, tsup is used to directly execute TypeScript code with ES modules.
+
+2. Production Build and Bundling with tsup
+For production, tsup bundles and compiles the server code into optimized JavaScript files. 
+
 ## Using this example
 
 Run the following command:
