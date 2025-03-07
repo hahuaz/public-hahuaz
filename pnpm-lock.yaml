@@ -87,6 +87,9 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      '@repo/lib':
+        specifier: workspace:*
+        version: link:../../packages/lib
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -181,6 +184,24 @@ importers:
       ts-jest:
         specifier: ^29.2.5
         version: 29.2.6(@babel/core@7.26.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.9))(jest@29.7.0(@types/node@20.17.23)(ts-node@10.9.2(@types/node@20.17.23)(typescript@5.8.2)))(typescript@5.8.2)
+
+  packages/lib:
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^20.11.24
+        version: 20.17.23
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
 
   packages/logger:
     devDependencies:
