@@ -1,6 +1,6 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState } from "react";
 
-import { AppWideContext } from '../context/AppWideContext';
+import { AppWideContext } from "../context/AppWideContext";
 
 export default function Account() {
   const [loading, setLoading] = useState(false);
@@ -12,16 +12,16 @@ export default function Account() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // TASK: if user re-routes between pages do not fetch the data again
+      // TODO: Ensure that if the user navigates between pages, the data is not refetched unnecessarily.
       try {
         setLoading(true);
         const response = await fetch(
           `https://jsonplaceholder.typicode.com/todos/1`
         );
         const json = await response.json();
-        dispatch({ type: 'SET_TODOS', payload: json });
+        dispatch({ type: "SET_TODOS", payload: json });
       } catch (error) {
-        console.log('ERROR', error);
+        console.log("ERROR", error);
       } finally {
         setLoading(false);
       }
