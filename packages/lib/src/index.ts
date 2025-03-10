@@ -7,3 +7,7 @@ export function isEqualArrays<T>(
 
   return arr1.every((val, idx) => val === arr2[idx]);
 }
+
+export function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
