@@ -1,5 +1,6 @@
 import { config } from "@repo/eslint-config/base";
 
+/** @type {import("eslint").Linter.Config} */
 const customConfig = [
   ...config,
   // {
@@ -7,7 +8,9 @@ const customConfig = [
   //     "no-console": ["error", { allow: ["warn", "error"] }],
   //   },
   // },
+  {
+    ignores: ["react"],
+  },
 ];
 
-/** @type {import("eslint").Linter.Config} */
 export default customConfig;
