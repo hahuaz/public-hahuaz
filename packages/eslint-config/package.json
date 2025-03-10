@@ -5,9 +5,8 @@
   "private": true,
   "exports": {
     "./base": "./base.mjs",
-    "./next": "./next.js",
-    "./react": "./react.js",
-    "./vite": "./vite.js"
+    "./react": "./react.mjs",
+    "./next": "./next.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
