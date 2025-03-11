@@ -30,9 +30,11 @@ export const config = [
           ignoreRestSiblings: true,
         },
       ],
+      "@typescript-eslint/no-floating-promises": "error", // this rule requires parser from typescript-eslint. parser is defined in package level to comply with tsconfig
     },
   },
+  // ignores needs to be in seperate object to work properly. see https://github.com/eslint/eslint/discussions/18304
   {
-    ignores: ["dist/**"],
+    ignores: ["**/*.config.ts", "dist/**/*", "**/*.js"],
   },
 ];

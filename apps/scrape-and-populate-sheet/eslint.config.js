@@ -6,9 +6,8 @@ const customConfig = [
   {
     languageOptions: {
       // since parser is set to eslint parser:
-      // 1. to comply with tsconfig, languageOptions should be declared in the package level.
-      // 2. tsconfig and eslint works hand in hand. e.g. tsconfig should declare include for eslint to work
-      // 3. typescript-eslint should be installed in the project.
+      // 1. languageOptions should be declared in package level because eslint should have reference to tsconfig to get included files
+      // 2. typescript-eslint should be installed in the project.
       parser: tseslint.parser,
       parserOptions: {
         project: "./tsconfig.json",

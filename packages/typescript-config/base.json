@@ -24,6 +24,5 @@
     "noUnusedLocals": false, // custom eslint rule is in place for this
     "noUnusedParameters": false, // custom eslint rule is in place for this
     "skipLibCheck": true
-  },
-  "exclude": ["node_modules"]
+  }
 }

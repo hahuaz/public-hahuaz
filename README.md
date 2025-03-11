@@ -1,3 +1,8 @@
+# TODOs:
+1. introduce nextjs instead of web
+2. introdcue vite playground
+
+
 # Pnpm workspace features:
 
 1. Local Package Linking with Workspace Protocol: 
