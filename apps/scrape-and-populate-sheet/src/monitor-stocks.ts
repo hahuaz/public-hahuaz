@@ -1,7 +1,7 @@
 import cron from "node-cron";
 import fs from "fs";
 
-import { scrape, monitorPrices } from "@/lib/index.js";
+import { scrape, analyzeScrapedData } from "@/lib/index.js";
 
 const SCRAPE_CONFIG = {
   domain: "https://fintables.com/",
@@ -18,29 +18,34 @@ export async function monitorStocks() {
   const _every10Seconds = "*/10 * * * * *";
   const _everyMinute = "*/1 * * * *";
 
-  cron.schedule(_everyMinute, async () => {
-    const scrapeResult = await scrape({
-      urlsToScrape,
-      querySelector: SCRAPE_CONFIG.querySelector,
-    });
-    // console.log("Scrape Result:", scrapeResult);
-
-    for (const { resource, value } of scrapeResult) {
-      console.log(`${resource}: ${value}`);
+  cron.schedule(_every10Seconds, async () => {
+    try {
+      const scrapeResult = await scrape({
+        urlsToScrape,
+        querySelector: SCRAPE_CONFIG.querySelector,
+      });
+      // console.log("Scrape Result:", scrapeResult);
 
       const scrapedDataDirPath = `${process.cwd()}/scraped-data`;
 
-      if (!fs.existsSync(scrapedDataDirPath)) {
-        fs.mkdirSync(scrapedDataDirPath);
+      for (const { resource, value } of scrapeResult) {
+        // console.log(`${resource}: ${value}`);
+
+        if (!fs.existsSync(scrapedDataDirPath)) {
+          fs.mkdirSync(scrapedDataDirPath);
+        }
+
+        fs.appendFileSync(`${scrapedDataDirPath}/${resource}`, `${value}\n`);
       }
 
-      fs.appendFileSync(`${scrapedDataDirPath}/${resource}`, `${value}\n`);
+      await analyzeScrapedData({
+        scrapeResult,
+        scrapedDataDirPath,
+      });
+
+      // console.log("monitorStocks cron job completed.");
+    } catch (error) {
+      console.error("Error in monitorStocks cron job:", error);
     }
-
-    await monitorPrices({
-      urlsToScrape,
-    });
-
-    console.log("monitorStocks cron job completed.");
   });
 }

@@ -5,6 +5,8 @@ import playSound from "play-sound";
 
 import { getLastLines } from "@repo/lib";
 
+import type { ScrapeResult } from "@/types/index.js";
+
 const workingDir = process.cwd();
 
 type Prices = number[];
@@ -16,11 +18,10 @@ function isPriceIncreasing(prices: Prices) {
   }
 
   // if 0th price is greater than the previous 59th price consider it as increasing
-  console.log({
-    place: "isPriceIncreasing",
-    prices0: prices[0],
-    prices59: prices[59],
-  });
+  // console.log({
+  //   prices0: prices[0],
+  //   prices59: prices[59],
+  // });
   const isIncreasing = prices[0] > prices[59];
 
   if (isIncreasing) {
@@ -43,22 +44,22 @@ function triggerAlarm() {
 /**
  * Monitor the prices of the resources and trigger an alarm if the price is increasing
  */
-export async function monitorPrices({
-  urlsToScrape,
+export async function analyzeScrapedData({
+  scrapeResult,
+  scrapedDataDirPath,
 }: {
-  urlsToScrape: string[];
+  scrapeResult: ScrapeResult;
+  scrapedDataDirPath: string;
 }) {
   let IS_XTUM_INCREASING = false;
 
-  for (const url of urlsToScrape) {
-    const resource = url.split("/").pop();
-    if (!resource) {
-      throw new Error(`Resource not found in URL: ${url}`);
-    }
+  for (const scrapeItem of scrapeResult) {
+    const { resource } = scrapeItem;
 
-    const filePath = `data/${resource}`;
+    const filePath = `${scrapedDataDirPath}/${resource}`;
 
     if (!fs.existsSync(filePath)) {
+      console.error("File not found:", filePath);
       throw new Error(`File not found: ${filePath}`);
     }
 
