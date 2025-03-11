@@ -7,8 +7,6 @@ import { getLastLines } from "@repo/lib";
 
 import type { ScrapeResult } from "@/types/index.js";
 
-const workingDir = process.cwd();
-
 type Prices = number[];
 
 function isPriceIncreasing(prices: Prices) {
@@ -34,7 +32,7 @@ function isPriceIncreasing(prices: Prices) {
 function triggerAlarm() {
   const player = playSound();
 
-  const soundPath = path.join(workingDir, "notification.mp3");
+  const soundPath = path.join(process.cwd(), "notification.mp3");
 
   player.play(soundPath, (err) => {
     if (err) console.error("Error playing sound:", err);

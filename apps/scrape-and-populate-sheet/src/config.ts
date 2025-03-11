@@ -26,7 +26,11 @@ export const APP_CONFIG: {
 } = {
   MODE: process.env.NODE_ENV!,
   GOOGLE_SHEET_ID,
-  GOOGLE_CREDENTIAL_PATH: path.join(process.cwd(), "/credentials/google.json"),
+  GOOGLE_CREDENTIAL_PATH: path.join(
+    process.cwd(),
+    "credentials",
+    "google.json"
+  ),
 };
 
 console.log("APP_CONFIG:", APP_CONFIG);
