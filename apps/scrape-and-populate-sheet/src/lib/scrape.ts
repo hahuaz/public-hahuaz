@@ -18,7 +18,7 @@ export async function scrape({
 
   await page.setUserAgent(USER_AGENT);
 
-  const scrapeValues: ScrapeResult = [];
+  const scrapeResult: ScrapeResult = [];
 
   for (const url of urlsToScrape) {
     try {
@@ -45,7 +45,7 @@ export async function scrape({
         .replace(/\./g, "")
         .replace(",", ".");
 
-      scrapeValues.push({
+      scrapeResult.push({
         resource,
         value: formattedScrapeValue,
       });
@@ -58,5 +58,5 @@ export async function scrape({
 
   await browser.close();
 
-  return scrapeValues;
+  return scrapeResult;
 }

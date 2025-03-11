@@ -66,8 +66,6 @@ export async function saveToSheet(scrapeResult: ScrapeResult) {
         valueInputOption: "RAW",
       },
     });
-
-    console.log("Data updated successfully!");
   } catch (error) {
     console.error("Error updating sheet:", error);
   }

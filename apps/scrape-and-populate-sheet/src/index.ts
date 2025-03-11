@@ -1,36 +1,31 @@
 // execute config to load environment variables
 import "./config.js";
-import { scrape, saveToSheet } from "@/lib/index.js";
 
-const SCRAPE_CONFIG = {
-  domain: "https://fintables.com/",
-  resources: [
-    "fonlar/ZBJ",
-    "fonlar/PPN",
-    "fonlar/BGP",
-    "fonlar/DBB",
-    "fonlar/GA1",
-    "fonlar/GYK",
-    "fonlar/GUB",
-    "fonlar/TI6",
-    "fonlar/MUT",
-    "fonlar/HMG",
-    "fonlar/OBI",
-    "fonlar/APT",
-    "fonlar/NRG",
-    "fonlar/FIT",
-  ],
-  querySelector:
-    "div.flex-shrink-0.relative span.inline-flex.items-center.tabular-nums",
-};
+import { updateFundPrices } from "@/update-fund-prices.js";
+import { monitorStocks } from "@/monitor-stocks.js";
 
-const urlsToScrape = SCRAPE_CONFIG.resources.map(
-  (resource) => `${SCRAPE_CONFIG.domain}${resource}`
-);
+import { select } from "@inquirer/prompts";
 
-const scrapeValues = await scrape({
-  urlsToScrape,
-  querySelector: SCRAPE_CONFIG.querySelector,
-});
+async function main() {
+  const task = await select({
+    message: "Select a task",
+    choices: [
+      { name: "Only update fund prices", value: "update" },
+      {
+        name: "Update fund prices and monitor stock",
+        value: "update-and-monitor",
+      },
+    ],
+  });
 
-await saveToSheet(scrapeValues);
+  if (task === "update") {
+    await updateFundPrices();
+  } else if (task === "update-and-monitor") {
+    await updateFundPrices();
+    await monitorStocks();
+  } else {
+    console.error("Invalid task");
+  }
+}
+
+await main();
