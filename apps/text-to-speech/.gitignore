@@ -1,0 +1,3 @@
+# ignore all files in the output dir but keep the dir
+!output/
+output/*
