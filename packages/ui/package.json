@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    "./button": "./src/button.tsx"
+    ".": "./src/index.tsx"
   },
   "scripts": {
     "lint": "eslint \"**/*.ts*\" --max-warnings 0",
