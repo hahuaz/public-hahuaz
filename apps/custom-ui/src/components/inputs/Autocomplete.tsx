@@ -42,7 +42,7 @@ export default function Autocomplete(
     if (!isInputFocused || movieData.length) return;
     fetchMovies();
     return () => {};
-  }, [isInputFocused]);
+  }, [isInputFocused, movieData.length]);
 
   return (
     <div className="bg-white p-32">

@@ -1,9 +1,4 @@
-import {
-  AnimatedDrawer,
-  AnimatedSelect,
-  Autocomplete,
-  Select,
-} from "./components";
+import { AnimatedDrawer } from "./components";
 
 function App() {
   return (
