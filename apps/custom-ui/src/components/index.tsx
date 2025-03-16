@@ -7,3 +7,4 @@ export * from "./navbar";
 export * from "./buttons";
 export * from "./inputs";
 export * from "./drawer";
+export * from "./hover-effects";

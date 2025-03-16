@@ -1,9 +1,9 @@
-import { AnimatedDrawer } from "./components";
+import { HoverEffects } from "./components";
 
 function App() {
   return (
     <>
-      <AnimatedDrawer />
+      <HoverEffects />
     </>
   );
 }
