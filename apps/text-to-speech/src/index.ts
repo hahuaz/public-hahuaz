@@ -1,10 +1,12 @@
 import path from "path";
 
-// execute config to load environment variables
 import "./config.js";
-import { useAzure } from "./lib/azure.js";
+import { useGoogleTTS } from "./lib/index.js";
 
-await useAzure({
-  textPath: path.join(process.cwd(), "text.txt"),
-  outputFile: path.join(process.cwd(), "output", "my-audio"),
+const inputFile = path.join(process.cwd(), "text.txt");
+const outputFile = path.join(process.cwd(), "output", "0tts");
+
+await useGoogleTTS({
+  inputFile,
+  outputFile,
 });

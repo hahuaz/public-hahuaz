@@ -6,7 +6,7 @@ import sdk from "microsoft-cognitiveservices-speech-sdk";
 
 import { APP_CONFIG } from "@/config.js";
 
-export async function useAzure({
+export async function useAzureTTS({
   textPath,
   outputFile,
 }: {

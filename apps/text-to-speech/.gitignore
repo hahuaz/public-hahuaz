@@ -1,3 +1,7 @@
 # ignore all files in the output dir but keep the dir
 !output/
 output/*
+
+# ignore all files in temp dir except .gitkeep
+temp/*
+!temp/.gitkeep
