@@ -1,80 +1,74 @@
 import puppeteer from "puppeteer";
 
-import type { ScrapeResult } from "@/types/index.js";
+import type { ScrapeResult, Site } from "@/types/index.js";
 
-export async function scrape({
-  urlsToScrape,
-  querySelector,
-  USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
-  isLocalTr = false,
-}: {
-  urlsToScrape: string[];
-  querySelector: string;
-  USER_AGENT?: string;
-  isLocalTr?: boolean;
-}) {
-  const scrapeResult: ScrapeResult = [];
+export async function scrape(sitesToScrape: Site[]) {
+  const allScrapeResult: ScrapeResult = [];
 
   const browser = await puppeteer.launch({
     headless: true,
   });
+
   const page = await browser.newPage();
 
-  await page.setUserAgent(USER_AGENT);
+  await page.setUserAgent(
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+  );
 
-  for (const url of urlsToScrape) {
-    try {
-      // console.log(`Scraping: ${url}`);
-      await page.goto(url, { waitUntil: "networkidle2" });
+  for (const site of sitesToScrape) {
+    const urlsToScrape = site.resources.map(
+      (resource) => `${site.domain}${resource}`
+    );
 
-      // Wait until the element has a non-empty text value
-      await page.waitForFunction(
-        (selector) => {
-          const element = document.querySelector(selector);
-          return element?.textContent?.trim() !== "";
-        },
-        {}, // Options
-        querySelector
-      );
+    for (const url of urlsToScrape) {
+      try {
+        // console.log(`Scraping: ${url}`);
+        await page.goto(url, { waitUntil: "networkidle2" });
 
-      // await page.waitForSelector(querySelector);
+        // Wait until the element has a non-empty text value
+        await page.waitForFunction(
+          (selector) => {
+            const element = document.querySelector(selector);
+            return element?.textContent?.trim() !== "";
+          },
+          {}, // Options
+          site.querySelector
+        );
 
-      const scrapeValue = await page.evaluate((qs) => {
-        const element = document.querySelector(qs);
-        const textContent = element?.textContent?.trim();
-        return textContent;
-      }, querySelector);
-      // console.log(`scrapeValue: ${scrapeValue}`);
+        // await page.waitForSelector(querySelector);
 
-      // append latest scraped value to the file as a new line
-      const resource = url.split("/").pop() as string;
-      // console.log(`resource: ${resource}`);
+        let scrapeValue = await page.evaluate((qs) => {
+          const element = document.querySelector(qs);
+          const textContent = element?.textContent?.trim();
+          return textContent;
+        }, site.querySelector);
+        // console.log(`scrapeValue: ${scrapeValue}`);
 
-      if (scrapeValue === undefined) {
-        console.error(`${url}: scrapeValue is undefined`);
-        continue;
+        const resource = url.split("/").pop() as string;
+        // console.log(`resource: ${resource}`);
+
+        if (!scrapeValue) {
+          throw new Error(`scrapeValue is ${scrapeValue} for ${url}`);
+        }
+
+        if (site.isLocalTr) {
+          // In some locales (e.g., tr_TR), a comma is used as the decimal separator and a dot as the thousands separator (e.g., 1.234,56). Normalize the value.
+          scrapeValue = scrapeValue.replace(/\./g, "").replace(",", ".");
+        }
+
+        allScrapeResult.push({
+          resource,
+          value: scrapeValue,
+        });
+
+        // await wait(5000);
+      } catch (error) {
+        console.error(`Error scraping ${url}:`, error);
       }
-
-      let normalizedScrapeValue = scrapeValue;
-      if (isLocalTr) {
-        // In some locales (e.g., tr_TR), a comma is used as the decimal separator and a dot as the thousands separator (e.g., 1.234,56). Normalize the value.
-        normalizedScrapeValue = normalizedScrapeValue
-          .replace(/\./g, "")
-          .replace(",", ".");
-      }
-
-      scrapeResult.push({
-        resource,
-        value: normalizedScrapeValue,
-      });
-
-      // await wait(5000);
-    } catch (error) {
-      console.error(`Error scraping ${url}:`, error);
     }
   }
 
   await browser.close();
 
-  return scrapeResult;
+  return allScrapeResult;
 }

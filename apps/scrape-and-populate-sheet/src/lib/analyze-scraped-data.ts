@@ -32,7 +32,7 @@ function isPriceIncreasing(prices: Prices) {
 function triggerAlarm() {
   const player = playSound();
 
-  const soundPath = path.join(process.cwd(), "notification.mp3");
+  const soundPath = path.join(process.cwd(), "notification.wav");
 
   player.play(soundPath, (err) => {
     if (err) console.error("Error playing sound:", err);
@@ -43,30 +43,33 @@ function triggerAlarm() {
  * Monitor the prices of the resources and trigger an alarm if the price is increasing
  */
 export async function analyzeScrapedData({
-  scrapeResult,
+  scrapeItem,
   scrapedDataDirPath,
+  isXtumImportant = false,
 }: {
-  scrapeResult: ScrapeResult;
+  // scrape item is one of the scrape results
+  scrapeItem: ScrapeResult[number];
   scrapedDataDirPath: string;
+  isXtumImportant?: boolean;
 }) {
   let IS_XTUM_INCREASING = false;
 
-  for (const scrapeItem of scrapeResult) {
-    const { resource } = scrapeItem;
+  const { resource } = scrapeItem;
 
-    const filePath = `${scrapedDataDirPath}/${resource}`;
+  const filePath = `${scrapedDataDirPath}/${resource}`;
 
-    if (!fs.existsSync(filePath)) {
-      console.error("File not found:", filePath);
-      throw new Error(`File not found: ${filePath}`);
-    }
+  if (!fs.existsSync(filePath)) {
+    console.error("File not found:", filePath);
+    throw new Error(`File not found: ${filePath}`);
+  }
 
-    const prices = await getLastLines(filePath, 60);
+  const prices = await getLastLines(filePath, 60);
 
-    const parsedPrices = prices.map((price) => parseFloat(price));
+  const parsedPrices = prices.map((price) => parseFloat(price));
 
-    const res = isPriceIncreasing(parsedPrices);
+  const res = isPriceIncreasing(parsedPrices);
 
+  if (isXtumImportant) {
     if (resource === "XUTUM") {
       IS_XTUM_INCREASING = res;
     } else {
@@ -74,6 +77,16 @@ export async function analyzeScrapedData({
         console.log(`${resource} price is increasing.`);
         triggerAlarm();
       }
+    }
+  } else {
+    if (res) {
+      triggerAlarm();
+      const alarmFilePath = path.join(scrapedDataDirPath, "alarm.txt");
+      // append the resource name to the file with time
+      fs.appendFileSync(
+        alarmFilePath,
+        `${resource} is increasing, ${new Date().toLocaleString()}\n`
+      );
     }
   }
 }
