@@ -5,7 +5,7 @@ import { APP_CONFIG } from "@/config.js";
 
 const { GOOGLE_SHEET_ID, GOOGLE_CREDENTIAL_PATH } = APP_CONFIG;
 
-export async function saveToSheet(scrapeResult: ScrapeResult) {
+export async function updateSheet(scrapeResult: ScrapeResult) {
   const auth = new google.auth.GoogleAuth({
     keyFile: GOOGLE_CREDENTIAL_PATH,
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],

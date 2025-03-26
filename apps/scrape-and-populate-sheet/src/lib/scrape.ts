@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 
 import type { ScrapeResult, Site } from "@/types/index.js";
 
-export async function scrape(sitesToScrape: Site[]) {
+export async function scrape(sites: Site[]) {
   const allScrapeResult: ScrapeResult = [];
 
   const browser = await puppeteer.launch({
@@ -15,7 +15,7 @@ export async function scrape(sitesToScrape: Site[]) {
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
   );
 
-  for (const site of sitesToScrape) {
+  for (const site of sites) {
     const urlsToScrape = site.resources.map(
       (resource) => `${site.domain}${resource}`
     );
