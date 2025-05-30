@@ -41,7 +41,7 @@ const FOREIGN_RESERVES: Site = {
   domain: "https://www.tradingview.com/",
   resources: ["symbols/BIST-ALTIN", "symbols/USDTRY", "symbols/GOLD"],
   querySelector:
-    "#js-category-content > div.tv-react-category-header > div.js-symbol-page-header-root > div > div > div > div.quotesRow-pAUXADuj > div:nth-child(1) > div > div.lastContainer-JWoJqCpY > span.last-JWoJqCpY.js-symbol-last",
+    "#js-category-content > div.tv-react-category-header > div.js-symbol-page-header-root > div > div > div > div.quotesRow-iJMmXWiA > div:nth-child(1) > div > div.lastContainer-zoF9r75I > span.last-zoF9r75I.js-symbol-last",
 };
 
 const TR_STOCKS: Site = {
@@ -75,7 +75,7 @@ async function main() {
 
     console.log("Updated all prices successfully.");
   } else if (task === "monitor-foreign-reserves") {
-    cron.schedule(_cronEvery10Seconds, async () => {
+    cron.schedule(_cronEveryMinute, async () => {
       const scrapeResult = await scrape([FOREIGN_RESERVES]);
       await updateSheet(scrapeResult);
 

@@ -98,10 +98,16 @@ function isPriceIncreasing({
   }
 }
 
-function triggerAlarm() {
+export function triggerAlarm() {
   const player = playSound();
 
-  const soundPath = path.join(process.cwd(), "assets", "notification.wav");
+  const soundPath = path.join(
+    process.cwd(),
+    "src",
+    "assets",
+    "notification.wav"
+  );
+  console.log("Playing sound:", soundPath);
 
   player.play(soundPath, (err) => {
     if (err) console.error("Error playing sound:", err);
