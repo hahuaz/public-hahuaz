@@ -84,9 +84,6 @@ importers:
       typescript-eslint:
         specifier: ^8.26.0
         version: 8.26.0(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)
-      xlsx:
-        specifier: ^0.18.5
-        version: 0.18.5
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -112,15 +109,15 @@ importers:
 
   apps/scrape-and-populate-sheet:
     dependencies:
-      '@googleapis/sheets':
-        specifier: ^9.3.1
-        version: 9.4.0
       '@inquirer/prompts':
         specifier: ^7.3.3
         version: 7.3.3(@types/node@22.13.9)
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
+      googleapis:
+        specifier: ^149.0.0
+        version: 149.0.0
       node-cron:
         specifier: ^3.0.3
         version: 3.0.3
@@ -647,10 +644,6 @@ packages:
   '@google-cloud/text-to-speech@5.8.1':
     resolution: {integrity: sha512-HXyZBtfQq+ETSLwWV/k3zFRWSzt+KEfiC5/OqXNNUed+lU/LEyN0CsqqEmkFfkL8BPsVIMAK2xiYCaDsKENukg==}
     engines: {node: '>=14.0.0'}
-
-  '@googleapis/sheets@9.4.0':
-    resolution: {integrity: sha512-metyw+jk1wAxxBusi7Mp7MeoqM5L1qEWGq5MxFaayspR0YlqecsqK33mtOTS5GmVRU/p2XwFJxyY+1Vez5xukw==}
-    engines: {node: '>=12.0.0'}
 
   '@grpc/grpc-js@1.13.0':
     resolution: {integrity: sha512-pMuxInZjUnUkgMT2QLZclRqwk2ykJbIU05aZgPgJYXEpN9+2I7z7aNwcjWZSycRPl232FfhPszyBFJyOxTHNog==}
@@ -2023,6 +2016,10 @@ packages:
 
   googleapis-common@7.2.0:
     resolution: {integrity: sha512-/fhDZEJZvOV3X5jmD+fKxMqma5q2Q9nZNSF3kn1F18tpxmA86BcTxAGBQdM0N89Z3bEaIs+HVznSmFJEAmMTjA==}
+    engines: {node: '>=14.0.0'}
+
+  googleapis@149.0.0:
+    resolution: {integrity: sha512-LTMc/njwYy7KTeaUHDcQt7KxftHyghdzm2XzbL46PRLd1AXB09utT9Po2ZJn2X0EApz0pE2T5x5A9zM8iue6zw==}
     engines: {node: '>=14.0.0'}
 
   gopd@1.2.0:
@@ -3775,13 +3772,6 @@ snapshots:
       - encoding
       - supports-color
 
-  '@googleapis/sheets@9.4.0':
-    dependencies:
-      googleapis-common: 7.2.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-
   '@grpc/grpc-js@1.13.0':
     dependencies:
       '@grpc/proto-loader': 0.7.13
@@ -5464,6 +5454,14 @@ snapshots:
       qs: 6.14.0
       url-template: 2.0.8
       uuid: 9.0.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+
+  googleapis@149.0.0:
+    dependencies:
+      google-auth-library: 9.15.1
+      googleapis-common: 7.2.0
     transitivePeerDependencies:
       - encoding
       - supports-color

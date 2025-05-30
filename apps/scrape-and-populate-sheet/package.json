@@ -25,7 +25,7 @@
     "typescript": "5.8.2"
   },
   "dependencies": {
-    "@googleapis/sheets": "^9.3.1",
+    "googleapis": "^149.0.0",
     "@inquirer/prompts": "^7.3.3",
     "dotenv": "^16.4.7",
     "node-cron": "^3.0.3",
