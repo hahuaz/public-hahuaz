@@ -7,14 +7,15 @@
  *
  */
 function selectionSort(arr: number[]): number[] {
-  // Iterate through each element in the array
+  // Iterate through each
   for (let i = 0; i < arr.length - 1; i++) {
-    // Find the minimum element in the unsorted portion of the array
-    // pay attention to the starting index of the inner loop
+    // assume first element is the minimum in the unsorted portion
     let minIndex = i;
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[j] < arr[minIndex]) {
-        minIndex = j;
+
+    // Find the minimum element in the unsorted portion of the array
+    for (let k = i + 1; k < arr.length; k++) {
+      if (arr[k] < arr[minIndex]) {
+        minIndex = k;
       }
     }
 
