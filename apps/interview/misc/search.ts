@@ -41,7 +41,7 @@ function binarySearch(arr: number[], target: number): number {
 }
 
 // binary search for the index of smallest positive number
-function smallestPositive(nums: number[]) {
+export function smallestPositive(nums: number[]) {
   let left = 0,
     right = nums.length - 1;
   while (left < right) {
@@ -54,4 +54,20 @@ function smallestPositive(nums: number[]) {
     }
   }
   return left;
+}
+
+// binary search for the index of largest negative number
+export function largestNegative(nums: number[]) {
+  let left = 0,
+    right = nums.length - 1;
+  while (left < right) {
+    const mid = Math.ceil((left + right) / 2);
+
+    if (nums[mid] <= 0) {
+      left = mid;
+    } else {
+      right = mid - 1;
+    }
+  }
+  return right;
 }
