@@ -53,3 +53,15 @@ export async function getLastLines(
   // get the wanted number of lines
   return reversedLines.slice(0, numLines);
 }
+
+/**
+ * Asserts that two values are equal.
+ */
+export function assertEqual(actual: any, expected: any, testName: string) {
+  const a = JSON.stringify(actual);
+  const e = JSON.stringify(expected);
+  if (a !== e) {
+    throw new Error(`${testName} failed: expected ${e}, got ${a}`);
+  }
+  console.log(`${testName} passed`);
+}

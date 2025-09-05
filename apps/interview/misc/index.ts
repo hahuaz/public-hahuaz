@@ -1,8 +1,11 @@
+import { assertEqual } from "@repo/lib";
+
 // -------------------------
 
 /**
- * prime number: a number that is divisible only by itself and 1 (e.g. 2, 3, 5, 7, 11).
- *  */
+ * A prime number is only divisible by 1 and itself.
+ * The first few prime numbers are: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, ...
+ */
 function isPrime(num: number): boolean {
   if (num < 2) {
     return false;
@@ -18,33 +21,28 @@ function isPrime(num: number): boolean {
 }
 
 function returnPrimeNumbers(n: number): number[] {
-  return Array.from({ length: n }, (_, i) => i + 1).filter(isPrime);
-}
-
-const primeTo500 = [
-  2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
-  73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151,
-  157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233,
-  239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317,
-  331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419,
-  421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499,
-];
-
-if (JSON.stringify(returnPrimeNumbers(500)) === JSON.stringify(primeTo500)) {
-  console.log("isPrime function is correct");
-} else {
-  throw new Error("isPrime function is incorrect");
+  const primes: number[] = [];
+  for (let i = 2; i <= n; i++) {
+    if (isPrime(i)) {
+      primes.push(i);
+    }
+  }
+  return primes;
 }
 
 // -------------------------
 
 /**
- * hex system is used to represent binary data in a human-readable format.
- * hex is used instead of decimal because it is easier to convert between hex and binary.
- * hex system consists of 16 characters: 0-9 and A-F.
- * hex system is base-16, which means each digit can represent 16 values.
- * each value is equivalent to 4 bits, which is half a byte (1 byte = 8 bits).
- * for example, A in hex is 1010 in binary, and F in hex is 1111 in binary. so AF in hex is 10101111 in binary which equals to 1 byte.
+ * The hexadecimal (hex) system consists of 16 characters: 0–9 and A–F.
+ * Hex is base-16, meaning each digit can represent 16 values.
+ *
+ * Hex is commonly used to represent binary data in a human-readable format.
+ * It is preferred over decimal because conversion between hex and binary is straightforward.
+ * Each hex digit corresponds to 4 bits (half a byte). Since 1 byte = 8 bits,
+ * two hex digits represent exactly 1 byte.
+ *
+ * Example: A in hex = 1010 in binary, and F in hex = 1111 in binary.
+ * Together, AF in hex = 10101111 in binary, which represents 1 byte.
  */
 const hexToBinaryMap: { [key: string]: string } = {
   "0": "0000",
@@ -67,11 +65,11 @@ const hexToBinaryMap: { [key: string]: string } = {
 
 function hexToBinary(hex: string): string {
   let binaryValue = "";
-  const hexLowercase = hex.toLowerCase();
+  hex = hex.toLowerCase();
 
   // Iterate through the characters in the hexadecimal string
-  for (let i = 0; i < hexLowercase.length; i++) {
-    const char = hexLowercase[i];
+  for (let i = 0; i < hex.length; i++) {
+    const char = hex[i];
 
     // Get the binary representation of the hexadecimal digit
     const digitValue = hexToBinaryMap[char];
@@ -121,19 +119,16 @@ function countRepeatedCharacters(s: string): [string, number][] {
   return Object.entries(countMap);
 }
 
-if (
-  JSON.stringify(countRepeatedCharacters("AAAABCCCCCDDDDDDDDD")) ===
-  JSON.stringify([
+assertEqual(
+  countRepeatedCharacters("AAAABCCCCCDDDDDDDDD"),
+  [
     ["A", 4],
     ["B", 1],
     ["C", 5],
     ["D", 9],
-  ])
-) {
-  console.log("countRepeatedCharacters function is correct");
-} else {
-  throw new Error("countRepeatedCharacters function is incorrect");
-}
+  ],
+  "should count characters correctly"
+);
 
 // -------------------------
 
@@ -161,9 +156,9 @@ interface User {
   password: string;
 }
 
-const obj: User = { name: "Alice", age: 25, password: "secret" };
+const myUser: User = { name: "Alice", age: 25, password: "mypass" };
 const propsToSanitize: Array<keyof User> = ["password"];
-const sanitizedObj = sanitizeObject(obj, propsToSanitize);
+const sanitizedObj = sanitizeObject(myUser, propsToSanitize);
 
 console.log(sanitizedObj); // { name: 'Alice', age: 25 }
 
@@ -184,23 +179,15 @@ class ListNode {
 const arrToList = (arr: number[]): ListNode | null => {
   if (!arr.length) return null;
 
-  let head = new ListNode(arr[0]);
-  let curNode = head;
+  let dummyHead = new ListNode(0);
+  let curNode = dummyHead;
 
-  for (let i = 1; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     curNode.next = new ListNode(arr[i]);
     curNode = curNode.next;
   }
 
-  return head;
+  return dummyHead.next;
 };
-
-// Example usage:
-const list = arrToList([1, 2, 3, 4, 5]);
-let currentNode = list;
-while (currentNode) {
-  console.log(currentNode.val); // Output: 1 2 3 4 5
-  currentNode = currentNode.next;
-}
 
 // -------------------------
