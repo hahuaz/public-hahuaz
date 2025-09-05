@@ -1,16 +1,23 @@
 /**
- * This solution uses three pointers, one for each input array, and moves the
- * pointer of the array with the smallest current element. If the current elements
- * of the three arrays are equal, it means they are a common element, so it gets
- * added to the result array. This process continues until one of the arrays has
- * been fully processed.
- * The time complexity of this solution is O(n), where n is the total number of elements in all three arrays.
+ * 1213. Intersection of Three Sorted Arrays
+ * Given three integer arrays arr1, arr2 and arr3 sorted in strictly increasing order, return a sorted array of only the integers that appeared in all three arrays.
+ *
+ * Example 1:
+ * Input: arr1 = [1,2,3], arr2 = [2,3,4], arr3 = [3,4,5]
+ * Output: [3]
  */
-function commonElements(arr1: number[], arr2: number[], arr3: number[]) {
+
+function commonElements(
+  arr1: number[],
+  arr2: number[],
+  arr3: number[]
+): number[] {
+  // use three pointers to traverse the arrays. If the elements at all three pointers are equal, add to result and move all pointers forward. If not, move the pointer(s) with the smallest value forward.
+
+  const result: number[] = [];
   let i = 0,
     j = 0,
     k = 0;
-  const result = [];
 
   while (i < arr1.length && j < arr2.length && k < arr3.length) {
     if (arr1[i] === arr2[j] && arr2[j] === arr3[k]) {
@@ -18,22 +25,14 @@ function commonElements(arr1: number[], arr2: number[], arr3: number[]) {
       i++;
       j++;
       k++;
-    } else if (arr1[i] < arr2[j]) {
-      i++;
-    } else if (arr2[j] < arr3[k]) {
-      j++;
     } else {
-      k++;
+      // Move the pointer(s) with the smallest value
+      const minVal = Math.min(arr1[i], arr2[j], arr3[k]);
+      if (arr1[i] === minVal) i++;
+      if (arr2[j] === minVal) j++;
+      if (arr3[k] === minVal) k++;
     }
   }
 
   return result;
 }
-
-console.log(
-  commonElements(
-    [1, 5, 10, 20, 40, 80],
-    [6, 7, 20, 80, 100],
-    [3, 4, 15, 20, 30, 70, 80, 120]
-  )
-);
