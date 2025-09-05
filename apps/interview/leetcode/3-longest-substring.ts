@@ -20,21 +20,21 @@ function lengthOfLongestSubstring(s: string): number {
   const map: Record<string, number> = {};
 
   let max = 0;
-  let left = 0;
-  let right = 0;
+  let leftPointer = 0;
+  let rightPointer = 0;
 
   for (let i = 0; i < s.length; i++) {
     const curChar = s[i];
 
-    // If the character is seen before and it is in the current substring, move the left pointer to the right of it to avoid repeating characters.
-    if (map[curChar] !== undefined && map[curChar] >= left) {
-      left = map[curChar] + 1;
+    // If the character is seen before and it is in the current substring, move the leftPointer to right of last seen index.
+    if (map[curChar] !== undefined && map[curChar] >= leftPointer) {
+      leftPointer = map[curChar] + 1;
     }
 
     map[curChar] = i;
-    right = i;
+    rightPointer = i;
 
-    max = Math.max(max, right - left + 1);
+    max = Math.max(max, rightPointer - leftPointer + 1);
   }
 
   return max;
