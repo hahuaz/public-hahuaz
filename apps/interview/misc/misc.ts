@@ -168,3 +168,39 @@ const sanitizedObj = sanitizeObject(obj, propsToSanitize);
 console.log(sanitizedObj); // { name: 'Alice', age: 25 }
 
 // -------------------------
+
+// Convert the given array of numbers into a singly linked list
+
+class ListNode {
+  val: number;
+  next: ListNode | null;
+
+  constructor(val: number, next?: ListNode | null) {
+    this.val = val;
+    this.next = next || null;
+  }
+}
+
+const arrToList = (arr: number[]): ListNode | null => {
+  if (!arr.length) return null;
+
+  let head = new ListNode(arr[0]);
+  let curNode = head;
+
+  for (let i = 1; i < arr.length; i++) {
+    curNode.next = new ListNode(arr[i]);
+    curNode = curNode.next;
+  }
+
+  return head;
+};
+
+// Example usage:
+const list = arrToList([1, 2, 3, 4, 5]);
+let currentNode = list;
+while (currentNode) {
+  console.log(currentNode.val); // Output: 1 2 3 4 5
+  currentNode = currentNode.next;
+}
+
+// -------------------------
