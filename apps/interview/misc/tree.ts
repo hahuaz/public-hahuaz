@@ -1,15 +1,5 @@
-// Binary Search Tree
-// A binary search tree, sometimes called BST, is a type of binary tree which maintains the property that the value in each node must be greater than or equal to any value stored in the left sub-tree, and less than or equal to any value stored in the right sub-tree
-// Time Complexity:
-// Access: O(log(n))
-// Search: O(log(n))
-// Insert: O(log(n))
-// Remove: O(log(n))
+// binary tree has root node and each node has at most two children referred to as left child and right child
 
-// A "Node" represents a single element in the tree
-// Each node holds a number and has two possible branches:
-// - left: for smaller numbers
-// - right: for larger numbers
 class Node {
   value: number;
   otherProps?: any;
@@ -20,6 +10,78 @@ class Node {
     this.value = value;
   }
 }
+class BinaryTree {
+  root: Node | null = null;
+
+  constructor(rootValue?: number) {
+    if (rootValue !== undefined) this.root = new Node(rootValue);
+  }
+
+  // Build tree from level-order array
+  build(arr: (number | null)[]): void {
+    if (arr.length === 0 || arr[0] === null) return;
+
+    this.root = new Node(arr[0]!);
+    const queue: Node[] = [this.root];
+    let i = 1;
+
+    while (i < arr.length) {
+      const current = queue.shift()!;
+      // left child
+      if (i < arr.length && arr[i] !== null) {
+        current.left = new Node(arr[i]!);
+        queue.push(current.left);
+      }
+      i++;
+
+      // right child
+      if (i < arr.length && arr[i] !== null) {
+        current.right = new Node(arr[i]!);
+        queue.push(current.right);
+      }
+      i++;
+    }
+  }
+
+  /**
+   * In-order traversal is visiting left subtree, then node, then right subtree
+   */
+  inorderTraversal(): number[] {
+    const result: number[] = [];
+    const stack: Node[] = [];
+    let current: Node | null = this.root;
+
+    while (current || stack.length > 0) {
+      // Go as left as possible
+      while (current) {
+        stack.push(current);
+        current = current.left;
+      }
+
+      // Pop from stack and visit
+      current = stack.pop()!;
+      result.push(current.value);
+
+      // Go right
+      current = current.right;
+    }
+
+    return result;
+  }
+}
+
+const tree = new BinaryTree();
+tree.build([1, 2, 3, null, 4, 5, 6]);
+console.log(tree.inorderTraversal()); // Output: [2, 4, 1, 5, 3, 6]
+
+// ----------------------------------------------------------------
+// Binary Search Tree
+// A binary search tree, sometimes called BST, is a type of binary tree which maintains the property that the value in each node must be greater than or equal to any value stored in the left sub-tree, and less than or equal to any value stored in the right sub-tree
+// Time Complexity:
+// Access: O(log(n))
+// Search: O(log(n))
+// Insert: O(log(n))
+// Remove: O(log(n))
 
 // Binary Search Tree (BST) stores numbers in sorted order
 class BinarySearchTree {
