@@ -146,3 +146,80 @@ root.right.left = new Node(15);
 root.right.right = new Node(7);
 
 console.log(levelOrderTraversal(root)); // Output: [3, 9, 20, 15, 7]
+
+// ----------------------------------------------------------------
+
+// Prefix tree (Trie)
+// A trie, or prefix tree, is a tree data structure used to store and search strings efficiently, especially when dealing with prefixes.
+// Each node represents a single character of a string, and the path from the root to a node represents a prefix of the string.
+// A special marker (like isEndOfWord = true) indicates if a word ends at that node.
+// Time Complexity:
+// Access: O(m) where m is the length of the key
+// Search: O(m)
+// Insert: O(m)
+// Remove: O(m)
+
+// example
+// (root)
+//  ├── c
+//  │    └── a
+//  │         ├── t  (end of "cat")
+//  │         └── r  (end of "car")
+//  └── d
+//       └── o
+//            └── g  (end of "dog")
+
+class TrieNode {
+  children: Map<string, TrieNode>;
+  isEndOfWord: boolean;
+
+  constructor() {
+    this.children = new Map();
+    this.isEndOfWord = false;
+  }
+}
+
+class Trie {
+  root: TrieNode;
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  // Insert a word into the Trie
+  insert(word: string): void {
+    let node = this.root;
+
+    for (const char of word) {
+      if (!node.children.has(char)) {
+        node.children.set(char, new TrieNode());
+      }
+      node = node.children.get(char)!; // move to child node
+    }
+
+    node.isEndOfWord = true; // mark the end of a word
+  }
+
+  // Search for a complete word
+  search(word: string): boolean {
+    let node = this.root;
+
+    for (const char of word) {
+      if (!node.children.has(char)) return false;
+      node = node.children.get(char)!;
+    }
+
+    return node.isEndOfWord; // last node must mark end of a word
+  }
+
+  // Check if any word starts with the given prefix
+  startsWith(prefix: string): boolean {
+    let node = this.root;
+
+    for (const char of prefix) {
+      if (!node.children.has(char)) return false;
+      node = node.children.get(char)!;
+    }
+
+    return true; // path exists, so prefix is valid
+  }
+}
