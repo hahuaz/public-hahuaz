@@ -21,26 +21,30 @@ class BinaryTree {
   build(arr: (number | null)[]): void {
     if (arr.length === 0 || arr[0] === null) return;
 
-    this.root = new Node(arr[0]!);
-    const queue: Node[] = [this.root];
-    let i = 1;
+    const root = new Node(arr[0]!);
+    const queue: Node[] = [root];
 
+    let i = 1;
     while (i < arr.length) {
-      const current = queue.shift()!;
+      const node = queue.shift()!;
       // left child
       if (i < arr.length && arr[i] !== null) {
-        current.left = new Node(arr[i]!);
-        queue.push(current.left);
+        const leftNode = new Node(arr[i]!);
+        node.left = leftNode;
+        queue.push(leftNode);
       }
       i++;
 
       // right child
       if (i < arr.length && arr[i] !== null) {
-        current.right = new Node(arr[i]!);
-        queue.push(current.right);
+        const rightNode = new Node(arr[i]!);
+        node.right = rightNode;
+        queue.push(rightNode);
       }
       i++;
     }
+
+    this.root = root;
   }
 
   /**
@@ -48,22 +52,28 @@ class BinaryTree {
    */
   inorderTraversal(): number[] {
     const result: number[] = [];
+
+    // stack (push/pop) is used since LIFO is needed to backtrack
     const stack: Node[] = [];
-    let current: Node | null = this.root;
 
-    while (current || stack.length > 0) {
-      // Go as left as possible
-      while (current) {
-        stack.push(current);
-        current = current.left;
+    // go as left as possible and push all left nodes onto stack
+    const goLeftMost = (node: Node | null) => {
+      let curr = node;
+      while (curr) {
+        stack.push(curr);
+        curr = curr.left;
       }
+    };
 
-      // Pop from stack and visit
-      current = stack.pop()!;
-      result.push(current.value);
+    goLeftMost(this.root);
 
-      // Go right
-      current = current.right;
+    // process stack
+    while (stack.length > 0) {
+      const node = stack.pop()!;
+      result.push(node.value);
+
+      // left already processed, only subNode is right
+      goLeftMost(node.right);
     }
 
     return result;
