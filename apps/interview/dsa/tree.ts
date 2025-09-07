@@ -21,25 +21,30 @@ class BinaryTree {
   build(arr: (number | null)[]): void {
     if (arr.length === 0 || arr[0] === null) return;
 
+    // loop arr
+    // fill left i++
+    // fill right i++
+    // push new nodes into queue to fill later
+
     const root = new Node(arr[0]!);
     const queue: Node[] = [root];
 
     let i = 1;
     while (i < arr.length) {
       const node = queue.shift()!;
-      // left child
+      // fill left
       if (i < arr.length && arr[i] !== null) {
-        const leftNode = new Node(arr[i]!);
-        node.left = leftNode;
-        queue.push(leftNode);
+        const newNode = new Node(arr[i]!);
+        node.left = newNode;
+        queue.push(newNode);
       }
       i++;
 
-      // right child
+      // fill right
       if (i < arr.length && arr[i] !== null) {
-        const rightNode = new Node(arr[i]!);
-        node.right = rightNode;
-        queue.push(rightNode);
+        const newNode = new Node(arr[i]!);
+        node.right = newNode;
+        queue.push(newNode);
       }
       i++;
     }
@@ -109,7 +114,7 @@ class BinaryTree {
     const queue: Node[] = [this.root];
 
     while (queue.length > 0) {
-      // breadth-first traversal to process all nodes at the current level
+      // process all nodes at the current level (breadth-first traversal)
       let levelSize = queue.length;
       for (let i = 0; i < levelSize; i++) {
         const node = queue.shift()!;
@@ -161,16 +166,15 @@ class BinarySearchTree {
     while (true) {
       // If the new value is smaller go left
       if (value < curNode.value) {
-        // if no left child, place it there or keep left
+        // if no left child insert else go left
         if (!curNode.left) {
           curNode.left = newNode;
           break;
         } else {
           curNode = curNode.left;
         }
-        // If the new value is larger or equal go right
       } else {
-        // if no right child, place it there
+        // if no right child insert else go right
         if (!curNode.right) {
           curNode.right = newNode;
           break;
@@ -194,9 +198,9 @@ class BinarySearchTree {
         };
       }
       if (value < curNode.value) {
-        curNode = curNode.left; // Look left if smaller
+        curNode = curNode.left; // go left if smaller
       } else {
-        curNode = curNode.right; // Look right if larger
+        curNode = curNode.right; // go right if larger
       }
     }
 
@@ -270,16 +274,30 @@ class PrefixTree {
     return node.isEndOfWord === true;
   }
 
-  // Check if any word starts with the given prefix
-  startsWith(prefix: string): boolean {
+  // Return all words that start with a prefix
+  wordsWithPrefix(prefix: string): string[] {
     let node = this.root;
 
+    // Traverse to the end of the prefix
     for (const char of prefix) {
-      if (!node.children.has(char)) return false;
+      if (!node.children.has(char)) return []; // prefix not found
       node = node.children.get(char)!;
     }
 
-    return true;
+    const results: string[] = [];
+
+    // BFS pushes shortest words first
+    const queue: [PrefixTreeNode, string][] = [[node, prefix]];
+    while (queue.length > 0) {
+      const [curNode, path] = queue.shift()!;
+      if (curNode.isEndOfWord) results.push(path);
+
+      for (const [char, child] of curNode.children) {
+        queue.push([child, path + char]);
+      }
+    }
+
+    return results;
   }
 }
 
@@ -287,8 +305,8 @@ const prefixTree = new PrefixTree();
 prefixTree.insert("cat");
 prefixTree.insert("car");
 prefixTree.insert("dog");
-console.log(prefixTree.startsWith("ca")); // true
-console.log(prefixTree.search("ca")); // false
+console.log(prefixTree.search("car")); // true
+console.log(prefixTree.wordsWithPrefix("ca")); // ['cat', 'car']
 
 const trieObject = {
   children: {
