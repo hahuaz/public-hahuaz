@@ -267,7 +267,7 @@ class PrefixTree {
       node = node.children.get(char)!;
     }
 
-    return node.isEndOfWord === true; // check if it's a complete word
+    return node.isEndOfWord === true;
   }
 
   // Check if any word starts with the given prefix
@@ -279,6 +279,42 @@ class PrefixTree {
       node = node.children.get(char)!;
     }
 
-    return true; // path exists, so prefix is valid
+    return true;
   }
 }
+
+const prefixTree = new PrefixTree();
+prefixTree.insert("cat");
+prefixTree.insert("car");
+prefixTree.insert("dog");
+console.log(prefixTree.startsWith("ca")); // true
+console.log(prefixTree.search("ca")); // false
+
+const trieObject = {
+  children: {
+    c: {
+      children: {
+        a: {
+          children: {
+            t: { children: {}, isEndOfWord: true },
+            r: { children: {}, isEndOfWord: true },
+          },
+          isEndOfWord: false,
+        },
+      },
+      isEndOfWord: false,
+    },
+    d: {
+      children: {
+        o: {
+          children: {
+            g: { children: {}, isEndOfWord: true },
+          },
+          isEndOfWord: false,
+        },
+      },
+      isEndOfWord: false,
+    },
+  },
+  isEndOfWord: false,
+};
