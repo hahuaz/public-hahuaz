@@ -132,9 +132,10 @@ const tree = new BinaryTree();
 tree.build([1, 2, 3, null, 4, 5, 6]);
 console.log(tree.levelOrderTraversal(tree.root)); // Output: [1, 2, 3, 4, 5, 6]
 console.log(tree.inOrderTraversal()); // Output: [2, 4, 1, 5, 3, 6]
+console.log(tree.height()); // Output: 2
 
 // ----------------------------------------------------------------
-// Binary Search Tree
+// Binary Search Tree (BST) stores numbers in sorted order
 // A binary search tree, sometimes called BST, is a type of binary tree which maintains the property that the value in each node must be greater than or equal to any value stored in the left sub-tree, and less than or equal to any value stored in the right sub-tree
 // Time Complexity:
 // Access: O(log(n))
@@ -142,7 +143,6 @@ console.log(tree.inOrderTraversal()); // Output: [2, 4, 1, 5, 3, 6]
 // Insert: O(log(n))
 // Remove: O(log(n))
 
-// Binary Search Tree (BST) stores numbers in sorted order
 class BinarySearchTree {
   root: Node | null = null;
 
@@ -156,43 +156,47 @@ class BinarySearchTree {
       return;
     }
 
-    let current = this.root;
+    let curNode = this.root;
 
     while (true) {
       // If the new value is smaller go left
-      if (value < current.value) {
-        if (!current.left) {
-          current.left = newNode; // Place it here
-          return;
+      if (value < curNode.value) {
+        // if no left child, place it there or keep left
+        if (!curNode.left) {
+          curNode.left = newNode;
+          break;
+        } else {
+          curNode = curNode.left;
         }
-        current = current.left;
-      } else {
         // If the new value is larger or equal go right
-        if (!current.right) {
-          current.right = newNode; // Place it here
-          return;
+      } else {
+        // if no right child, place it there
+        if (!curNode.right) {
+          curNode.right = newNode;
+          break;
+        } else {
+          curNode = curNode.right;
         }
-        current = current.right;
       }
     }
   }
 
   // Search for a number in the tree
   find(value: number): { value: number; otherProps?: any } | false {
-    let current = this.root;
+    let curNode = this.root;
 
     // Keep moving left or right until found or null
-    while (current) {
-      if (value === current.value) {
+    while (curNode) {
+      if (value === curNode.value) {
         return {
-          value: current.value,
-          otherProps: current.otherProps,
+          value: curNode.value,
+          otherProps: curNode.otherProps,
         };
       }
-      if (value < current.value) {
-        current = current.left; // Look left if smaller
+      if (value < curNode.value) {
+        curNode = curNode.left; // Look left if smaller
       } else {
-        current = current.right; // Look right if larger
+        curNode = curNode.right; // Look right if larger
       }
     }
 
@@ -203,7 +207,7 @@ class BinarySearchTree {
 // ----------------------------------------------------------------
 
 // Prefix tree (Trie)
-// A trie, or prefix tree, is a tree data structure used to store and search strings efficiently, especially when dealing with prefixes.
+// A prefix tree (trie) is a tree data structure used to store and search strings efficiently, especially when dealing with prefixes.
 // Each node represents a single character of a string, and the path from the root to a node represents a prefix of the string.
 // A special marker (like isEndOfWord = true) indicates if a word ends at that node.
 // Time Complexity:
@@ -222,9 +226,10 @@ class BinarySearchTree {
 //       └── o
 //            └── g  (end of "dog")
 
-class TrieNode {
-  children: Map<string, TrieNode>;
-  isEndOfWord: boolean;
+class PrefixTreeNode {
+  // multiple sub-nodes (more than two children)
+  children: Map<string, PrefixTreeNode>;
+  isEndOfWord?: boolean;
 
   constructor() {
     this.children = new Map();
@@ -232,21 +237,22 @@ class TrieNode {
   }
 }
 
-class Trie {
-  root: TrieNode;
+class PrefixTree {
+  root: PrefixTreeNode;
   constructor() {
-    this.root = new TrieNode();
+    this.root = new PrefixTreeNode();
   }
 
-  // Insert a word into the Trie
+  // Insert a word into the tree
   insert(word: string): void {
     let node = this.root;
 
+    // insert each and move down the tree
     for (const char of word) {
       if (!node.children.has(char)) {
-        node.children.set(char, new TrieNode());
+        node.children.set(char, new PrefixTreeNode());
       }
-      node = node.children.get(char)!; // move to child node
+      node = node.children.get(char)!;
     }
 
     node.isEndOfWord = true; // mark the end of a word
@@ -261,7 +267,7 @@ class Trie {
       node = node.children.get(char)!;
     }
 
-    return node.isEndOfWord; // last node must mark end of a word
+    return node.isEndOfWord === true; // check if it's a complete word
   }
 
   // Check if any word starts with the given prefix
