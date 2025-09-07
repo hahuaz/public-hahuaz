@@ -1,13 +1,7 @@
 // for unweighted edges or static edges, BREADTH FIRST SEARCH (BFS) is used to find the shortest path
 // Time Complexity: O(V + E) where V is number of vertices and E is number of edges
 
-// It starts from a chosen start node.
-// Visits all its neighbors first (breadth), before going deeper.
-// Uses a queue to keep track of which node to visit next.
-// When it visits a node, marks it as visited and records its parent node to reconstruct the path later.
-// Stops when it reaches the destination node or when all reachable nodes have been visited.
-
-// there can be multiple type of inputs to represent a graph in questions:
+// there can be multiple type of inputs to represent a graph structure:
 // 1. edges list: [[0,1], [0,2], [1,2], [1,3], ...] where each pair [u,v] represents an undirected edge between node u and v. you need to build adjacency list from this first
 // 2. adjacency list: [[1,2], [0,2,3], [0,1], [1], ...] where index represents node and value at that index is a list of its neighbors. For example, node 1 has neighbors 0, 2, and 3
 
@@ -16,10 +10,14 @@ function bfsShortestPath(
   start: number,
   destination: number
 ): number[] {
-  // since number in the edges[][] is node value, max + 1 will give us number of nodes
+  // build adjacency list: [[n1,n2],[]]
+  // init visited(not to track again), parent(to build path) and queue(to visit neighbors) array. queue starts with start node.
+  // build parent with loop
+  // build path with parent
+
+  // Each number in edges[][] represents a node value. Taking the maximum node value and adding 1 gives the total number of nodes
   const V = Math.max(...edges.flat()) + 1;
 
-  // build adjacency list
   const adj: number[][] = Array(V)
     .fill(false)
     .map(() => []);
@@ -27,18 +25,16 @@ function bfsShortestPath(
     adj[u].push(v);
     adj[v].push(u); // undirected
   }
+  // console.log("adjacency list:", adj);
 
-  // BFS initialization
-  const queue: number[] = [start];
   const visited: boolean[] = Array(V).fill(false);
   const parent: number[] = Array(V).fill(-1);
-
+  const queue: number[] = [];
   visited[start] = true;
+  queue.push(start);
 
   while (queue.length > 0) {
     const node = queue.shift()!;
-
-    if (node === destination) break;
 
     for (const neighbor of adj[node]) {
       if (!visited[neighbor]) {
@@ -49,12 +45,13 @@ function bfsShortestPath(
     }
   }
 
-  // reconstruct path from start to destination
+  // console.log("parent array:", parent);
+  // build path from destination to start using parent values
   const destinationToStartPath: number[] = [];
-  let cur = destination;
-  while (cur !== -1) {
-    destinationToStartPath.push(cur);
-    cur = parent[cur];
+  let curNode = destination;
+  while (curNode !== -1) {
+    destinationToStartPath.push(curNode);
+    curNode = parent[curNode];
   }
 
   // no path found
@@ -64,7 +61,6 @@ function bfsShortestPath(
   return destinationToStartPath.reverse();
 }
 
-// Example usage
 const edges = [
   [0, 1],
   [1, 2],
@@ -93,7 +89,7 @@ console.log(bfsShortestPath(edges, 2, 6)); // [2, 1, 0, 3, 4, 6]
 // Stops when it reaches the destination node or when all reachable nodes have been visited.
 
 function dijkstraShortestPath(
-  edges: [number, number, number][], // [u, v, w]
+  edges: [number, number, number][], // [u, v, weight]
   start: number,
   destination: number
 ): number[] {
@@ -103,7 +99,7 @@ function dijkstraShortestPath(
   // build adjacency list with weights
   const adj: [number, number][][] = Array(V)
     .fill(0)
-    .map(() => []);
+    .map(() => []); // [ [ [neighbor, weight], ... ], ... ]
   for (const [u, v, w] of edges) {
     adj[u].push([v, w]);
     adj[v].push([u, w]); // undirected
@@ -112,16 +108,13 @@ function dijkstraShortestPath(
   // distance array and parent tracking
   const dist: number[] = Array(V).fill(Infinity);
   const parent: number[] = Array(V).fill(-1);
+  const pq: [number, number][] = []; // [distance, node]
   dist[start] = 0;
-
-  // priority queue (min-heap)
-  const pq: [number, number][] = [[0, start]]; // [distance, node]
+  pq.push([0, start]);
 
   while (pq.length > 0) {
     pq.sort((a, b) => a[0] - b[0]); // simple min-heap via sort
     const [d, node] = pq.shift()!;
-
-    if (node === destination) break;
 
     for (const [neighbor, weight] of adj[node]) {
       const newDist = d + weight;
