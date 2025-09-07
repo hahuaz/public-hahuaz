@@ -157,46 +157,68 @@ console.dir(myLinkedList, { depth: null });
 
 // -------------------------
 
-// Remove duplicates from sorted linked list
-interface SimpleNode {
-  element: number;
-  next: SimpleNode | null;
-}
+// given a sorted linked list, remove duplicates such that each element appear only once
+function removeDuplicates(list: any): any {
+  let curNode = list.head;
 
-interface SimpleLinkedList {
-  head: SimpleNode | null;
-}
-
-function removeDuplicates(list: SimpleLinkedList): SimpleLinkedList {
-  let curr = list.head;
-
-  while (curr?.next) {
-    if (curr.element === curr.next.element) {
-      curr.next = curr.next.next;
+  while (curNode?.next) {
+    if (curNode.value === curNode.next.value) {
+      // point current node's next to the node after next
+      curNode.next = curNode.next.next;
     } else {
-      curr = curr.next;
+      curNode = curNode.next;
     }
   }
 
   return list;
 }
 
-const linkedList: SimpleLinkedList = {
+const duplicateList = {
   head: {
-    element: 10,
+    value: 10,
     next: {
-      element: 10,
+      value: 10,
       next: {
-        element: 30,
+        value: 30,
         next: {
-          element: 30,
-          next: null,
+          value: 30,
+          next: undefined,
         },
       },
     },
   },
 };
 
-console.log(removeDuplicates(linkedList));
+console.log(removeDuplicates(duplicateList));
 
-export default {};
+// -------------------------
+
+// Convert the given array of numbers into a singly linked list
+const arrToList = (arr: number[]): Node | undefined => {
+  if (!arr.length) return undefined;
+
+  const dummyHead = new Node(0);
+  let curNode = dummyHead;
+
+  for (const [i, el] of arr.entries()) {
+    curNode.next = new Node(el);
+    curNode = curNode.next;
+  }
+
+  return dummyHead.next;
+};
+
+// Convert the given linked list to an array of numbers
+function listToArr(headNode: Node): number[] {
+  const arr: number[] = [];
+  let curNode: Node | undefined = headNode;
+
+  while (curNode) {
+    arr.push(curNode.value as number);
+    curNode = curNode.next;
+  }
+
+  return arr;
+}
+
+// -------------------------

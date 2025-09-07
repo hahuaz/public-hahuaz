@@ -1,4 +1,4 @@
-import { smallestPositive, largestNegative } from "@/misc/search.js";
+import { smallestPositive, largestNegative } from "@/dsa/search.js";
 
 /**
  * 2529. Maximum Count of Positive Integer and Negative Integer

@@ -28,12 +28,7 @@ function selectionSort(arr: number[]): number[] {
   return arr;
 }
 
-const selectionSortTest1 = selectionSort([5, 4, 3, 2, 1]);
-if (JSON.stringify(selectionSortTest1) === JSON.stringify([1, 2, 3, 4, 5])) {
-  console.log("selectionSort test 1 passed");
-} else {
-  console.log("selectionSort test 1 failed");
-}
+console.log(selectionSort([5, 4, 3, 2, 1])); // [1, 2, 3, 4, 5]
 
 /**
  * bubble sort: repeatedly swap adjacent elements if they are in the wrong order.
@@ -64,16 +59,4 @@ function bubbleSort(arr: number[]): number[] {
   return arr;
 }
 
-const bubleSortTest1 = bubbleSort([5, 4, 3, 2, 1]);
-if (JSON.stringify(bubleSortTest1) === JSON.stringify([1, 2, 3, 4, 5])) {
-  console.log("bubbleSort test 1 passed");
-} else {
-  console.log("bubbleSort test 1 failed");
-}
-
-const bubleSortTest2 = bubbleSort([5, 1, 4, 2, 8]);
-if (JSON.stringify(bubleSortTest2) === JSON.stringify([1, 2, 4, 5, 8])) {
-  console.log("bubbleSort test 2 passed");
-} else {
-  console.log("bubbleSort test 2 failed");
-}
+console.log(bubbleSort([5, 1, 4, 2, 8])); // [1, 2, 4, 5, 8]

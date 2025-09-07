@@ -163,31 +163,3 @@ const sanitizedObj = sanitizeObject(myUser, propsToSanitize);
 console.log(sanitizedObj); // { name: 'Alice', age: 25 }
 
 // -------------------------
-
-// Convert the given array of numbers into a singly linked list
-
-class ListNode {
-  val: number;
-  next: ListNode | null;
-
-  constructor(val: number, next?: ListNode | null) {
-    this.val = val;
-    this.next = next || null;
-  }
-}
-
-const arrToList = (arr: number[]): ListNode | null => {
-  if (!arr.length) return null;
-
-  let dummyHead = new ListNode(0);
-  let curNode = dummyHead;
-
-  for (let i = 0; i < arr.length; i++) {
-    curNode.next = new ListNode(arr[i]);
-    curNode = curNode.next;
-  }
-
-  return dummyHead.next;
-};
-
-// -------------------------

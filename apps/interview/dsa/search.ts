@@ -1,10 +1,7 @@
 /**
  * linear search: iterate through each element of the array until the target value is found.
- *
  * time complexity: O(n) because in the worst case we may have to check every element.
- *
  */
-
 function linearSearch(arr: number[], target: number): number {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === target) {
@@ -16,11 +13,8 @@ function linearSearch(arr: number[], target: number): number {
 
 /**
  * binary search: repeatedly divide the sorted array in half to find the target value.
- *
  * time complexity: O(log n) because with each comparison, we reduce the search space by half.
- *
  */
-
 function binarySearch(arr: number[], target: number): number {
   let left = 0;
   let right = arr.length - 1;
@@ -29,11 +23,13 @@ function binarySearch(arr: number[], target: number): number {
     const mid = Math.floor((left + right) / 2);
 
     if (arr[mid] === target) {
-      return mid; // target found
+      return mid;
     } else if (arr[mid] < target) {
-      left = mid + 1; // target is in the right half
+      // make left closer to target
+      left = mid + 1;
     } else {
-      right = mid - 1; // target is in the left half
+      // make right closer to target
+      right = mid - 1;
     }
   }
 
