@@ -11,7 +11,9 @@ function bfsShortestPath(
   destination: number
 ): number[] {
   // build adjacency list: [[n1,n2],[]]
-  // init visited(not to track again), parent(to build path) and queue(to visit neighbors) array. queue starts with start node.
+  // init parent(to build path)
+  //      queue(to visit neighbors)
+  //      visited(not to calculate again) array.
   // build parent with loop
   // build path with parent
 
@@ -25,11 +27,10 @@ function bfsShortestPath(
     adj[u].push(v);
     adj[v].push(u); // undirected
   }
-  // console.log("adjacency list:", adj);
 
-  const visited: boolean[] = Array(V).fill(false);
   const parent: number[] = Array(V).fill(-1);
   const queue: number[] = [];
+  const visited: boolean[] = Array(V).fill(false);
   visited[start] = true;
   queue.push(start);
 
@@ -39,26 +40,25 @@ function bfsShortestPath(
     for (const neighbor of adj[node]) {
       if (!visited[neighbor]) {
         visited[neighbor] = true;
-        parent[neighbor] = node;
         queue.push(neighbor);
+
+        parent[neighbor] = node;
       }
     }
   }
 
-  // console.log("parent array:", parent);
-  // build path from destination to start using parent values
-  const destinationToStartPath: number[] = [];
+  // path from destination to start using parent values
+  const path: number[] = [];
   let curNode = destination;
   while (curNode !== -1) {
-    destinationToStartPath.push(curNode);
+    path.push(curNode);
     curNode = parent[curNode];
   }
 
   // no path found
-  if (destinationToStartPath[destinationToStartPath.length - 1] !== start)
-    return [];
+  if (path[path.length - 1] !== start) return [];
 
-  return destinationToStartPath.reverse();
+  return path.reverse();
 }
 
 const edges = [
@@ -82,33 +82,34 @@ console.log(bfsShortestPath(edges, 2, 6)); // [2, 1, 0, 3, 4, 6]
 // for weighted edges, dijkstra's algorithm is used to find the shortest path
 // time complexity: O((V + E) log(V)) where V is number of vertices and E is number of edges
 
-// It starts from a chosen start node.
-// Maintains a priority queue (min-heap) to always expand the least costly node next.
-// Keeps track of the shortest known distance from the start to each node.
-// When it visits a node, it updates the distances to its neighbors if a shorter path is found through the current node.
-// Stops when it reaches the destination node or when all reachable nodes have been visited.
-
 function dijkstraShortestPath(
   edges: [number, number, number][], // [u, v, weight]
   start: number,
   destination: number
 ): number[] {
+  // build adjacency list: [ [ [neighbor, weight], ... ], ... ]
+  // init parent(to build path)
+  //      priority queue(to visit neighbors)
+  //      distance(to track shortest known distance) array.
+  // build parent with loop
+  // build path with parent
+
   // find number of vertices
   const V = Math.max(...edges.map((e) => Math.max(e[0], e[1]))) + 1;
 
   // build adjacency list with weights
   const adj: [number, number][][] = Array(V)
-    .fill(0)
-    .map(() => []); // [ [ [neighbor, weight], ... ], ... ]
+    .fill(false)
+    .map(() => []);
   for (const [u, v, w] of edges) {
     adj[u].push([v, w]);
     adj[v].push([u, w]); // undirected
   }
 
   // distance array and parent tracking
-  const dist: number[] = Array(V).fill(Infinity);
   const parent: number[] = Array(V).fill(-1);
   const pq: [number, number][] = []; // [distance, node]
+  const dist: number[] = Array(V).fill(Infinity);
   dist[start] = 0;
   pq.push([0, start]);
 
@@ -120,18 +121,19 @@ function dijkstraShortestPath(
       const newDist = d + weight;
       if (newDist < dist[neighbor]) {
         dist[neighbor] = newDist;
-        parent[neighbor] = node;
         pq.push([newDist, neighbor]);
+
+        parent[neighbor] = node;
       }
     }
   }
 
   // reconstruct path
   const path: number[] = [];
-  let cur = destination;
-  while (cur !== -1) {
-    path.push(cur);
-    cur = parent[cur];
+  let curNode = destination;
+  while (curNode !== -1) {
+    path.push(curNode);
+    curNode = parent[curNode];
   }
 
   if (path[path.length - 1] !== start) return []; // no path
@@ -140,17 +142,17 @@ function dijkstraShortestPath(
 
 // Example usage
 const weightedEdges: [number, number, number][] = [
-  [0, 1, 4],
-  [1, 2, 1],
-  [0, 3, 2],
-  [3, 4, 3],
-  [4, 7, 1],
-  [3, 7, 5],
-  [6, 7, 2],
-  [4, 5, 2],
-  [4, 6, 3],
-  [5, 6, 1],
+  [0, 1, 5],
+  [1, 2, 2],
+  [0, 3, 3],
+  [3, 4, 6],
+  [4, 7, 2],
+  [3, 7, 4],
+  [6, 7, 1],
+  [4, 5, 3],
+  [4, 6, 5],
+  [5, 6, 2],
 ];
 
-console.log(dijkstraShortestPath(weightedEdges, 0, 7)); // [0, 3, 4, 7]
-console.log(dijkstraShortestPath(weightedEdges, 2, 6)); // [2, 1, 0, 3, 4, 6]
+console.log(dijkstraShortestPath(weightedEdges, 1, 5)); // [ 1, 0, 3, 7, 6, 5 ] cost 15
+console.log(dijkstraShortestPath(weightedEdges, 3, 6)); // [ 3, 7, 6 ] cost 5
