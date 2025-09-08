@@ -92,6 +92,26 @@ class Dog extends Animal {
   }
 }
 
+class Cat extends Animal {
+  color = "white";
+  makeSound() {
+    console.log("Meow!");
+  }
+}
+
 const dog = new Dog();
 dog.makeSound();
 dog.move(10);
+
+// polymorphism: the ability of different classes to be treated as instances of the same class through a common interface.
+// Polymorphism = “same call, different behavior”
+// here, making same call (animal.makeSound()) on different subclasses (Dog, Cat) but getting different behavior (different sound)
+function perform(animal: Animal) {
+  animal.makeSound();
+}
+perform(new Dog()); // Woof! Woof!
+perform(new Cat()); // Meow!
+
+// so
+// inheritance is about reusing code,
+// polymorphism is about using a common interface for different types to provide different behaviors(same call, different method runs).

@@ -26,21 +26,21 @@ function mergeTwoLists(
   list2: ListNode | null
 ): ListNode | null {
   const dummyHead = new ListNode(-1);
-  let curNode = dummyHead;
+  let cur = dummyHead;
 
-  while (list1 !== null && list2 !== null) {
+  while (list1 && list2) {
     if (list1.val <= list2.val) {
-      curNode.next = new ListNode(list1.val);
+      cur.next = list1;
       list1 = list1.next;
     } else {
-      curNode.next = new ListNode(list2.val);
+      cur.next = list2;
       list2 = list2.next;
     }
-    curNode = curNode.next;
+    cur = cur.next;
   }
 
-  // if one of the list is not null, append it to the end
-  curNode.next = list1 !== null ? list1 : list2;
+  // attach remaining nodes directly
+  cur.next = list1 || list2;
 
   return dummyHead.next;
 }

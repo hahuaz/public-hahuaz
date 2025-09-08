@@ -208,6 +208,22 @@ class BinarySearchTree {
   }
 }
 
+const bst = new BinarySearchTree();
+bst.insert(10);
+bst.insert(20);
+bst.insert(15);
+bst.insert(17);
+bst.insert(5);
+//        10
+//       /  \
+//      5    20
+//          /
+//        15
+//          \
+//           17
+console.log(bst.find(15)); // { value: 15, otherProps: undefined }
+console.log(bst.find(99)); // false
+
 // ----------------------------------------------------------------
 
 // Prefix tree (Trie)

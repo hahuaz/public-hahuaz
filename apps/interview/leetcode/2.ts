@@ -30,26 +30,24 @@ function addTwoNumbers(
   l1: ListNode | null,
   l2: ListNode | null
 ): ListNode | null {
-  const headNode = new ListNode(0);
-  let prevNode = headNode;
-
+  const dummyHead = new ListNode(0);
+  let cur = dummyHead;
   let carry = 0;
-  while (l1 || l2 || carry) {
-    const sum = (l1?.val ?? 0) + (l2?.val ?? 0) + carry;
-    if (sum > 9) {
-      carry = 1;
-    } else {
-      carry = 0;
-    }
-    const digit = sum % 10;
-    prevNode.next = new ListNode(digit);
-    prevNode = prevNode.next;
 
-    l1 = l1?.next ?? null;
-    l2 = l2?.next ?? null;
+  while (l1 || l2 || carry) {
+    const x = l1 ? l1.val : 0;
+    const y = l2 ? l2.val : 0;
+
+    const sum = x + y + carry;
+    carry = Math.floor(sum / 10);
+    cur.next = new ListNode(sum % 10);
+    cur = cur.next;
+
+    if (l1) l1 = l1.next;
+    if (l2) l2 = l2.next;
   }
 
-  return headNode.next;
+  return dummyHead.next;
 }
 
 const test1 = addTwoNumbers(

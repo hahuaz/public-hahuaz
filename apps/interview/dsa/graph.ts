@@ -5,7 +5,24 @@
 // 1. edges list: [[0,1], [0,2], [1,2], [1,3], ...] where each pair [u,v] represents an undirected edge between node u and v. you need to build adjacency list from this first
 // 2. adjacency list: [[1,2], [0,2,3], [0,1], [1], ...] where index represents node and value at that index is a list of its neighbors. For example, node 1 has neighbors 0, 2, and 3
 
+const edges = [
+  [0, 1],
+  [1, 2],
+  [0, 3],
+  [3, 4],
+  [4, 7],
+  [3, 7],
+  [6, 7],
+  [4, 5],
+  [4, 6],
+  [5, 6],
+];
+
+console.log(bfsShortestPath(8, edges, 0, 7)); // [0, 3, 7]
+console.log(bfsShortestPath(8, edges, 2, 6)); // [2, 1, 0, 3, 4, 6]
+
 function bfsShortestPath(
+  V: number,
   edges: number[][],
   start: number,
   destination: number
@@ -16,9 +33,6 @@ function bfsShortestPath(
   //      visited(not to calculate again) array.
   // build parent with loop
   // build path with parent
-
-  // Each number in edges[][] represents a node value. Taking the maximum node value and adding 1 gives the total number of nodes
-  const V = Math.max(...edges.flat()) + 1;
 
   const adj: number[][] = Array(V)
     .fill(false)
@@ -61,28 +75,29 @@ function bfsShortestPath(
   return path.reverse();
 }
 
-const edges = [
-  [0, 1],
-  [1, 2],
-  [0, 3],
-  [3, 4],
-  [4, 7],
-  [3, 7],
-  [6, 7],
-  [4, 5],
-  [4, 6],
-  [5, 6],
-];
-
-console.log(bfsShortestPath(edges, 0, 7)); // [0, 3, 7]
-console.log(bfsShortestPath(edges, 2, 6)); // [2, 1, 0, 3, 4, 6]
-
 // ----------------------------------------------------------------
 
 // for weighted edges, dijkstra's algorithm is used to find the shortest path
 // time complexity: O((V + E) log(V)) where V is number of vertices and E is number of edges
 
+const weightedEdges: [number, number, number][] = [
+  [0, 1, 5],
+  [1, 2, 2],
+  [0, 3, 3],
+  [3, 4, 6],
+  [4, 7, 2],
+  [3, 7, 4],
+  [6, 7, 1],
+  [4, 5, 3],
+  [4, 6, 5],
+  [5, 6, 2],
+];
+
+console.log(dijkstraShortestPath(8, weightedEdges, 1, 5)); // [ 1, 0, 3, 7, 6, 5 ] cost 15
+console.log(dijkstraShortestPath(8, weightedEdges, 3, 6)); // [ 3, 7, 6 ] cost 5
+
 function dijkstraShortestPath(
+  V: number,
   edges: [number, number, number][], // [u, v, weight]
   start: number,
   destination: number
@@ -93,9 +108,6 @@ function dijkstraShortestPath(
   //      distance(to track shortest known distance) array.
   // build parent with loop
   // build path with parent
-
-  // find number of vertices
-  const V = Math.max(...edges.map((e) => Math.max(e[0], e[1]))) + 1;
 
   // build adjacency list with weights
   const adj: [number, number][][] = Array(V)
@@ -139,20 +151,3 @@ function dijkstraShortestPath(
   if (path[path.length - 1] !== start) return []; // no path
   return path.reverse();
 }
-
-// Example usage
-const weightedEdges: [number, number, number][] = [
-  [0, 1, 5],
-  [1, 2, 2],
-  [0, 3, 3],
-  [3, 4, 6],
-  [4, 7, 2],
-  [3, 7, 4],
-  [6, 7, 1],
-  [4, 5, 3],
-  [4, 6, 5],
-  [5, 6, 2],
-];
-
-console.log(dijkstraShortestPath(weightedEdges, 1, 5)); // [ 1, 0, 3, 7, 6, 5 ] cost 15
-console.log(dijkstraShortestPath(weightedEdges, 3, 6)); // [ 3, 7, 6 ] cost 5

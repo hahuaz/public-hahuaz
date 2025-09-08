@@ -36,3 +36,5 @@ function commonElements(
 
   return result;
 }
+
+console.log(commonElements([1, 2, 3], [2, 3, 4], [3, 4, 5])); // Output: [3]

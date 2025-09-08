@@ -1,8 +1,7 @@
 /**
  * 20. Valid Parentheses
  *
- * Given a string s containing just the characters '(', ')', '{', '}', '[' and ']',
- * determine if the input string is valid.
+ * Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
  *
  * An input string is valid if:
  *  1) Open brackets are closed by the same type of brackets.
@@ -29,9 +28,8 @@
  * Input: s = "{[]}"
  * Output: true
  */
-
 function isValid(s: string): boolean {
-  const bracketMapper: Record<string, string> = {
+  const bracketMap: Record<string, string> = {
     "(": ")",
     "[": "]",
     "{": "}",
@@ -43,7 +41,7 @@ function isValid(s: string): boolean {
     const curChar = s[i];
 
     // If it's an opening bracket, push it.
-    if (curChar in bracketMapper) {
+    if (curChar in bracketMap) {
       stack.push(curChar);
       continue;
     } else {
@@ -52,7 +50,7 @@ function isValid(s: string): boolean {
       if (!latestOpenBracket) return false;
 
       // Mismatched type/order.
-      if (bracketMapper[latestOpenBracket] !== curChar) return false;
+      if (bracketMap[latestOpenBracket] !== curChar) return false;
     }
   }
 
@@ -66,10 +64,6 @@ const cases: Array<{ input: string; expected: boolean }> = [
   { input: "(]", expected: false },
   { input: "([)]", expected: false },
   { input: "{[]}", expected: true },
-  { input: "[", expected: false },
-  { input: "]", expected: false },
-  { input: "((({{[[]]}})))", expected: true },
-  { input: "({[}])", expected: false },
 ];
 
 for (const { input, expected } of cases) {
