@@ -4,6 +4,9 @@
 // there can be multiple type of inputs to represent a graph structure:
 // 1. edges list: [[0,1], [0,2], [1,2], [1,3], ...] where each pair [n1,n2] represents an undirected edge between node n1 and n2. you need to build adjacency list from this first
 
+// question
+// given edges list, number of vertices(nodes), start node and destination node, return the shortest path from start to destination
+
 const edges = [
   [0, 1],
   [1, 2],
@@ -26,13 +29,18 @@ function bfsShortestPath(
   start: number,
   destination: number
 ): number[] {
-  // build adjacency list {n1: [n2, n3, ...], ...}
+  // build adjacency list
   // init parent(to build path)
   //      queue(to pass neighbors)
   //      visited(not to visit again) array.
   // build parent with consuming queue
   // build path with parent
 
+  // {
+  //   N1: [N2, N3, ...],
+  //   N2: [N1, N4, ...],
+  //   ...
+  // }
   const adj: Record<number, number[]> = {};
   for (const [n1, n2] of edges) {
     if (!adj[n1]) adj[n1] = [];
@@ -79,6 +87,9 @@ function bfsShortestPath(
 // for weighted edges, dijkstra's algorithm is used to find the shortest path
 // time complexity: O((V + E) log(V)) where V is number of vertices and E is number of edges
 
+// question
+// given edges list with weights, number of vertices(nodes), start node and destination node, return the shortest path from start to destination
+
 const weightedEdges: [number, number, number][] = [
   [0, 1, 5],
   [1, 2, 2],
@@ -107,14 +118,19 @@ function dijkstraShortestPath(
   start: number,
   destination: number
 ): number[] {
-  // build adjacency list  {n1: [[n2, weight], [n3, weight], ...], ...}
+  // build adjacency list
   // init parent(to build path)
-  //      priority queue(to visit neighbors)
+  //      priority queue(to pass neighbors)
   //      distance(to track shortest known distance) array.
   // build parent with loop
   // build path with parent
 
   // build adjacency list with weights
+  // {
+  //   N1: [[N2, weight], [N3, weight], ...],
+  //   N2: [[N1, weight], [N4, weight], ...],
+  //   ...
+  // }
   const adj: Record<number, Array<[number, number]>> = {};
   for (const [n1, n2, weight] of edges) {
     if (!adj[n1]) adj[n1] = [];
@@ -157,8 +173,10 @@ function dijkstraShortestPath(
   return path.reverse();
 }
 
-// currency conversion
+// ----------------------------------------------------------------
+
 // Question
+// currency conversion
 
 // array of currency conversion rates. E.g. ['USD', 'GBP', 0.77] which means 1 USD is equal to 0.77 GBP
 // an array containing a 'from' currency and a 'to' currency
@@ -223,6 +241,8 @@ const rates: Rate[] = [
 ];
 
 console.log(findConversionRateBFS(rates, "GBP", "AUD")); // 1.89
+
+// ----------------------------------------------------------------
 
 // leetcode 399 - Evaluate Division
 // You are given an array of variable pairs equations and an array of real numbers values, where equations[i] = [Ai, Bi] and values[i] represent the equation Ai / Bi = values[i]. Each Ai or Bi is a string that represents a single variable.
@@ -296,3 +316,20 @@ export function calcEquation(
 
   return results;
 }
+
+console.log(
+  calcEquation(
+    [
+      ["a", "b"],
+      ["b", "c"],
+    ],
+    [2.0, 3.0],
+    [
+      ["a", "c"],
+      ["b", "a"],
+      ["a", "e"],
+      ["a", "a"],
+      ["x", "x"],
+    ]
+  )
+);
