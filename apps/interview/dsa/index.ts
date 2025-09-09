@@ -163,3 +163,79 @@ const sanitizedObj = sanitizeObject(myUser, propsToSanitize);
 console.log(sanitizedObj); // { name: 'Alice', age: 25 }
 
 // -------------------------
+/**
+ * company operates two drones.
+ * Two drone needs to complete delivery1 and delivery2.
+ * Each delivery takes 1 hour.
+ * Only one drone can operate at a time.
+ *
+ * Drone1 needs to charge every charge1, drone2 needs to charge every charge2.
+ * Both drone can charge at the same time.
+ *
+ * Determine the minimum time to complete both deliveries.
+ *
+ * Example:
+ * Input: delivery1 = 3, delivery2 = 1, charge1 = 2, charge2 = 3
+ *
+ * Output: 5
+ *
+ * Explanation:
+ * Drone1 is out for delivery on hours 1,3,5. It charges on hours 2,4 (multiple of charge1)
+ * Drone2 is out for delivery on hour 2. It can charge on hour 3 (multiple of charge2) but no need since delivery is done.
+ */
+
+function minDeliveryTime(
+  d1: number,
+  d2: number,
+  c1: number,
+  c2: number
+): number {
+  // Impossible if a drone must charge every hour but still has work
+  if (c1 === 1 && d1 > 0) return -1;
+  if (c2 === 1 && d2 > 0) return -1;
+  if (d1 === 0 && d2 === 0) return 0;
+
+  let t = 0; // hours are 1-based in the spec; we'll pre-increment at loop start
+
+  while (d1 > 0 || d2 > 0) {
+    t++;
+
+    const d1Available = d1 > 0 && t % c1 !== 0;
+    const d2Available = d2 > 0 && t % c2 !== 0;
+
+    if (!d1Available && !d2Available) {
+      // both charging, do nothing
+      continue;
+    }
+
+    if (d1Available && !d2Available) {
+      d1--; // only Drone1 can work this hour
+    } else if (!d1Available && d2Available) {
+      d2--; // only Drone2 can work this hour
+    } else if (d1Available && d2Available) {
+      // Both can work
+      // choose the one that has less time to next charge
+      const next1 = c1 - (t % c1);
+      const next2 = c2 - (t % c2);
+
+      if (next1 < next2) {
+        d1--;
+      } else if (next2 < next1) {
+        d2--;
+      } else {
+        // tie: break by who has more remaining work (helps finish sooner)
+        if (d1 >= d2) d1--;
+        else d2--;
+      }
+    }
+  }
+
+  return t;
+}
+console.log(minDeliveryTime(3, 1, 2, 3)); // expected 5
+console.log(minDeliveryTime(1, 1, 2, 3)); // expected 2
+console.log(minDeliveryTime(10, 0, 7, 4)); // expected 11
+console.log(minDeliveryTime(7, 7, 3, 3)); // expected 20
+console.log(minDeliveryTime(4, 1, 1, 3)); // expected IMPOSSIBLE (-1)
+
+// ------------------------
