@@ -385,3 +385,83 @@ function isSymmetricIterative(root: Node | null): boolean {
 
   return true;
 }
+
+// ----------------------------------------------------------------
+class TreeNode {
+  val: number;
+  left: TreeNode | null;
+  right: TreeNode | null;
+  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+    this.val = val ?? 0;
+    this.left = left ?? null;
+    this.right = right ?? null;
+  }
+}
+
+// given two nodes p and q in a binary tree, find their lowest common ancestor (LCA).
+
+// LCA in a general binary tree (NOT assuming BST), BFS only, no recursion.
+function lowestCommonAncestorBFS(
+  root: TreeNode | null,
+  p: TreeNode | null,
+  q: TreeNode | null
+): TreeNode | null {
+  if (!root || !p || !q) return null;
+  if (p === q) return p;
+
+  // 1) Build parent pointers level-by-level (BFS)
+  const parent = new Map<TreeNode, TreeNode | null>();
+  parent.set(root, null);
+  const queue: TreeNode[] = [root];
+
+  while (queue.length && (!parent.has(p) || !parent.has(q))) {
+    const node = queue.shift()!;
+    if (node.left && !parent.has(node.left)) {
+      parent.set(node.left, node);
+      queue.push(node.left);
+    }
+    if (node.right && !parent.has(node.right)) {
+      parent.set(node.right, node);
+      queue.push(node.right);
+    }
+  }
+
+  // If either p or q was never discovered, they’re not in the tree
+  if (!parent.has(p) || !parent.has(q)) return null;
+
+  // 2) Mark all ancestors of p (including p)
+  const seen = new Set<TreeNode>();
+
+  let cur: TreeNode | null = p;
+  while (cur !== null) {
+    seen.add(cur);
+    cur = parent.get(cur) ?? null; // Map.get may be undefined; coalesce to null
+  }
+
+  // 3. Climb from q until we hit a seen ancestor
+  cur = q;
+  while (cur !== null) {
+    if (seen.has(cur)) return cur;
+    cur = parent.get(cur) ?? null;
+  }
+  return null; // should not happen if both are in the same tree
+}
+
+const p = new TreeNode(6);
+const q = new TreeNode(4);
+
+//       3
+//     /
+//   5
+//  / \
+// 6   2
+//    / \
+//   7   4
+
+const root = new TreeNode(
+  3,
+  new TreeNode(5, p, new TreeNode(2, new TreeNode(7), q))
+);
+
+console.log("LCA(6,4) =", lowestCommonAncestorBFS(root, p, q)?.val);
+// → 5
