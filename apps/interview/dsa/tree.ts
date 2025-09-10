@@ -294,7 +294,7 @@ class PrefixTree {
   wordsWithPrefix(prefix: string): string[] {
     let node = this.root;
 
-    // Traverse to the end of the prefix
+    // find the node that represents the end of the prefix
     for (const char of prefix) {
       if (!node.children.has(char)) return []; // prefix not found
       node = node.children.get(char)!;
@@ -302,14 +302,15 @@ class PrefixTree {
 
     const results: string[] = [];
 
-    // BFS pushes shortest words first
-    const queue: [PrefixTreeNode, string][] = [[node, prefix]];
-    while (queue.length > 0) {
-      const [curNode, path] = queue.shift()!;
+    // use BFS to find all words starting from this node
+    const q: [PrefixTreeNode, string][] = [[node, prefix]];
+
+    while (q.length > 0) {
+      const [curNode, path] = q.shift()!;
       if (curNode.isEndOfWord) results.push(path);
 
-      for (const [char, child] of curNode.children) {
-        queue.push([child, path + char]);
+      for (const [char, childNode] of curNode.children) {
+        q.push([childNode, path + char]);
       }
     }
 
@@ -352,3 +353,35 @@ const trieObject = {
   },
   isEndOfWord: false,
 };
+
+// ----------------------------------------------------------------
+// You’re given the root of a binary tree, and you need to determine if it is symmetric around its center (i.e., the left subtree is a mirror reflection of the right subtree).
+
+//     1
+//    / \
+//   2   2
+//  / \ / \
+// 3  4 4  3   → Symmetric
+
+function isSymmetricIterative(root: Node | null): boolean {
+  if (!root) return true;
+
+  const queue: (Node | null)[] = [];
+  queue.push(root.left, root.right);
+
+  while (queue.length) {
+    // take two nodes to compare
+    const t1 = queue.shift()!;
+    const t2 = queue.shift()!;
+
+    if (!t1 && !t2) continue;
+    if (!t1 || !t2) return false;
+    if (t1.value !== t2.value) return false;
+
+    // push children in opposite order for next comparsion to be mirror
+    queue.push(t1.left, t2.right);
+    queue.push(t1.right, t2.left);
+  }
+
+  return true;
+}

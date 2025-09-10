@@ -1,3 +1,9 @@
+// OOP advantages:
+// Modularity: it promotes modular design, where software components are divided into objects. Modular approach makes it easier to understand, maintain, and modify code base.
+// Reusability: it facilitates code reuse through inheritance and composition. Inheritance allows a class (subclass) to inherit properties and methods from another class (superclass), reducing redundancy and promoting code reuse. Composition enables objects to be composed of other objects, allowing for the reuse of existing functionality.
+// Encapsulation: it hides the internal state of an object and restricts access to it through well-defined interfaces (methods). This helps prevent unintended modification of object state. Encapsulation also enables the implementation details of an object to be hidden.
+// Polymorphism: through common interfaces, it allows different classes to be treated as instances of the same class.
+
 /**
  * Class: A blueprint for creating objects with properties and methods.
  *
@@ -66,10 +72,12 @@ console.log(Car.vehicleType); // Automobile
 // -------------------------
 
 /**
- * abstract class can't be instantiated directly but can be extended by other classes. it acts as a blueprint for other classes to inherit from.
+ * abstract class can't be instantiated directly but can be extended by other classes.
+ * It defines common properties and methods that subclasses must implement.
  * abstract class can contain abstract methods, which are methods without a body. subclasses must provide an implementation for these abstract methods.
  * abstract class can have abstract properties as well. subclasses must provide an implementation for these properties.
  * failure to implement abstract members in subclasses will result in a compilation error.
+ *
  */
 abstract class Animal {
   // Abstract method
@@ -103,6 +111,7 @@ const dog = new Dog();
 dog.makeSound();
 dog.move(10);
 
+// Abstract classes enable polymorphism by defining a common interface (through abstract methods) that subclasses must implement.
 // polymorphism: the ability of different classes to be treated as instances of the same class through a common interface.
 // Polymorphism = “same call, different behavior”
 // here, making same call (animal.makeSound()) on different subclasses (Dog, Cat) but getting different behavior (different sound)
@@ -114,4 +123,12 @@ perform(new Cat()); // Meow!
 
 // so
 // inheritance is about reusing code,
+// composition is about combining objects,
 // polymorphism is about using a common interface for different types to provide different behaviors(same call, different method runs).
+
+// SOLID principles
+// Single Responsibility Principle: A class should have one responsibility. example: car class should only handle vehicle and not driver logic
+// Open/Closed Principle: open to extension, closed to modification. example: for EV car, extend car class instead of modifying it.
+// Liskov Substitution Principle: subclass should be substitutable for its superclass. example: electricCar.start() should work wherever car.start() works
+// Interface Segregation Principle: Clients should not be forced to depend on interfaces they do not use. example: instead of having one big vehicle interface, have separate interfaces for car, bike, truck
+// Dependency Inversion Principle: Depend on abstractions, not on concretions. example: car class shouldn't depend EVEngine or PetrolEngine directly, but on an Engine interface that both implement.
