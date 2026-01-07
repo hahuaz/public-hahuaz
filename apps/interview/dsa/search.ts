@@ -22,18 +22,17 @@ function binarySearch(arr: number[], target: number): number {
   while (left <= right) {
     const mid = Math.floor((left + right) / 2);
 
-    if (arr[mid] === target) {
-      return mid;
-    } else if (arr[mid] < target) {
-      // make left closer to target
-      left = mid + 1;
+    if (arr[mid] === target) return mid;
+
+    // target is in the left half.
+    if (target < arr[mid]) {
+      right = mid - 1; // search left half
     } else {
-      // make right closer to target
-      right = mid - 1;
+      left = mid + 1; // search right half
     }
   }
 
-  return -1;
+  return -1; // not found
 }
 
 // ----------------------------------------------------------------
@@ -57,14 +56,17 @@ function searchRotatedArr(arr: number[], target: number): number {
   // Else the right half is sorted. Check if target lies in (mid, right].
   // Move left/right accordingly.
 
+  // you have three pointers moving toward each other and target is in one of the halves
+  // left ............. mid .............. right
+
   while (left <= right) {
-    const mid = left + Math.floor((right - left) / 2);
+    const mid = Math.floor((left + right) / 2);
 
     if (arr[mid] === target) return mid;
 
     // Left half is sorted
     if (arr[left] <= arr[mid]) {
-      // target lies [left, mid). make right closer to target
+      // target is in the left half
       if (arr[left] <= target && target < arr[mid]) {
         right = mid - 1;
       } else {
@@ -73,7 +75,7 @@ function searchRotatedArr(arr: number[], target: number): number {
     } else {
       // Right half is sorted
 
-      // target lies (mid, right]. make left closer to target
+      // target is in the right half
       if (arr[mid] < target && target <= arr[right]) {
         left = mid + 1;
       } else {
@@ -92,6 +94,7 @@ export function smallestPositive(nums: number[]) {
   while (left < right) {
     const mid = Math.floor((left + right) / 2);
 
+    // smallest positive is in the left half (inclusive of mid)
     if (nums[mid] >= 0) {
       right = mid;
     } else {
@@ -108,6 +111,7 @@ export function largestNegative(nums: number[]) {
   while (left < right) {
     const mid = Math.ceil((left + right) / 2);
 
+    // largest negative is in the right half (inclusive of mid)
     if (nums[mid] <= 0) {
       left = mid;
     } else {

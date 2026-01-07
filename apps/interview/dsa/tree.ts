@@ -24,19 +24,21 @@ class BinaryTree {
     // loop arr
     // fill left i++
     // fill right i++
-    // push new nodes into queue to fill later
+    // push new nodes into q to fill later
 
     const root = new Node(arr[0]!);
-    const queue: Node[] = [root];
+    const q: Node[] = [];
+
+    q.push(root);
 
     let i = 1;
     while (i < arr.length) {
-      const node = queue.shift()!;
+      const node = q.shift()!;
       // fill left
       if (i < arr.length && arr[i] !== null) {
         const newNode = new Node(arr[i]!);
         node.left = newNode;
-        queue.push(newNode);
+        q.push(newNode);
       }
       i++;
 
@@ -44,7 +46,7 @@ class BinaryTree {
       if (i < arr.length && arr[i] !== null) {
         const newNode = new Node(arr[i]!);
         node.right = newNode;
-        queue.push(newNode);
+        q.push(newNode);
       }
       i++;
     }
@@ -59,8 +61,10 @@ class BinaryTree {
   levelOrderTraversal(root: Node | null): number[] {
     if (!root) return [];
 
-    const q: Node[] = [root];
     const orderTraversal: number[] = [];
+    const q: Node[] = [];
+
+    q.push(root);
 
     while (q.length > 0) {
       const curNode = q.shift()!;
@@ -111,15 +115,17 @@ class BinaryTree {
     if (this.root === null) return -1;
 
     let maxLevel = 0;
-    const queue: Node[] = [this.root];
+    const q: Node[] = [];
 
-    while (queue.length > 0) {
+    q.push(this.root);
+
+    while (q.length > 0) {
       // process all nodes at the current level (breadth-first traversal)
-      let levelSize = queue.length;
+      let levelSize = q.length;
       for (let i = 0; i < levelSize; i++) {
-        const node = queue.shift()!;
-        if (node.left) queue.push(node.left);
-        if (node.right) queue.push(node.right);
+        const node = q.shift()!;
+        if (node.left) q.push(node.left);
+        if (node.right) q.push(node.right);
       }
 
       maxLevel++;
@@ -303,18 +309,29 @@ class PrefixTree {
     const results: string[] = [];
 
     // use BFS to find all words starting from this node
-    const q: [PrefixTreeNode, string][] = [[node, prefix]];
+    const q: {
+      node: PrefixTreeNode;
+      path: string;
+    }[] = [];
+
+    q.push({ node, path: prefix });
 
     while (q.length > 0) {
-      const [curNode, path] = q.shift()!;
-      if (curNode.isEndOfWord) results.push(path);
+      const { node, path } = q.shift()!;
+      if (node.isEndOfWord) results.push(path);
 
-      for (const [char, childNode] of curNode.children) {
-        q.push([childNode, path + char]);
+      for (const [char, childNode] of node.children) {
+        q.push({ node: childNode, path: path + char });
       }
     }
 
     return results;
+    // Time: O(m + k) m = prefix.length, k = number of words with the prefix
+    // Space: O(m + k) for the queue and results array
+    // same solution apply if they ask
+    // count of words with the prefix
+    // longest word with the prefix
+    // shortest word with the prefix
   }
 }
 

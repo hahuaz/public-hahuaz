@@ -38,11 +38,11 @@ function isValid(s: string): boolean {
   const stack: string[] = [];
 
   for (let i = 0; i < s.length; i++) {
-    const curChar = s[i];
+    const ch = s[i];
 
     // If it's an opening bracket, push it.
-    if (curChar in bracketMap) {
-      stack.push(curChar);
+    if (ch in bracketMap) {
+      stack.push(ch);
       continue;
     } else {
       // Otherwise it must close the latest opening bracket.
@@ -50,7 +50,7 @@ function isValid(s: string): boolean {
       if (!latestOpenBracket) return false;
 
       // Mismatched type/order.
-      if (bracketMap[latestOpenBracket] !== curChar) return false;
+      if (bracketMap[latestOpenBracket] !== ch) return false;
     }
   }
 

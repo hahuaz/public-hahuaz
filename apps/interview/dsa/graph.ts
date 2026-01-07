@@ -215,17 +215,19 @@ export function findConversionRateBFS(
   if (!adj[from] || !adj[to]) return null;
 
   // BFS queue
-  const queue: Array<{ cur: string; acc: number }> = [{ cur: from, acc: 1 }];
-  const visited = new Set<string>([from]);
+  const q: Array<{ cur: string; acc: number }> = [];
+  const visited = new Set<string>();
+  q.push({ cur: from, acc: 1 });
+  visited.add(from);
 
-  while (queue.length > 0) {
-    const { cur, acc } = queue.shift()!;
+  while (q.length > 0) {
+    const { cur, acc } = q.shift()!;
     if (cur === to) return acc;
 
     for (const [nbr, rate] of adj[cur] || []) {
       if (!visited.has(nbr)) {
         visited.add(nbr);
-        queue.push({ cur: nbr, acc: acc * rate });
+        q.push({ cur: nbr, acc: acc * rate });
       }
     }
   }
@@ -241,6 +243,183 @@ const rates: Rate[] = [
 ];
 
 console.log(findConversionRateBFS(rates, "GBP", "AUD")); // 1.89
+
+// ----------------------------------------------------------------
+// 323. Number of Connected Components in an Undirected Graph
+// given edges, find and return the total number of connected components in the graph.
+// given edge list, find how many seperate(disconnected) graphs are there
+// without recursion
+function countComponents(n: number, edges: number[][]): number {
+  const adj: Record<number, number[]> = {};
+
+  for (const [u, v] of edges) {
+    if (!adj[u]) adj[u] = [];
+    if (!adj[v]) adj[v] = [];
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  const visited = new Set<number>();
+  let graphCount = 0;
+
+  // start from a node, queue its neighbors, mark visited.
+  // increase graph count when we start from an unvisited node
+  for (const [n1, nbrs] of Object.entries(adj)) {
+    const start = Number(n1);
+
+    if (!visited.has(start)) {
+      graphCount++;
+      const q = [start];
+      while (q.length) {
+        const node = q.shift()!;
+        if (!visited.has(node)) {
+          visited.add(node);
+          for (const nbr of adj[node]) {
+            if (!visited.has(nbr)) {
+              q.push(nbr);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return graphCount;
+}
+
+console.log(
+  countComponents(5, [
+    [0, 1],
+    [1, 2],
+    [3, 4],
+  ])
+); // 2
+
+// ----------------------------------------------------------------
+// A topological order of a directed graph is an ordering of its nodes such that for every directed edge u → v, node u comes before node v in the order. so you need to process u before v.
+// It only makes sense in a DAG (Directed Acyclic Graph).
+// If the graph has a cycle, no valid topological order exists.
+
+// 797. All Paths From Source to Target
+// Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1 and return them in any order.
+// The graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).
+// Input: graph = [[1,2],[3],[3],[]]
+// Output: [[0,1,3],[0,2,3]]
+// Explanation: There are two paths: 0 -> 1 -> 3 and 0 -> 2 -> 3.
+function allPathsSourceTarget(graph: number[][]): number[][] {
+  // what you need to be aware of:
+  // given arr is already adj list. index is node and value is nbrs. all you need to do is to convert to object-based adj list
+  // not just one start-to-dest path, but all start-to-dest paths
+
+  // use path(parent-to-cur) in q
+
+  const dest = graph.length - 1;
+  const start = 0;
+
+  // Build object-based adjacency list from the given graph array
+  const adj: Record<number, number[]> = {};
+  for (let i = 0; i < graph.length; i++) {
+    adj[i] = graph[i] ? [...graph[i]] : [];
+  }
+
+  const res: number[][] = []; // [[start, ..., dest], ...]
+  const q: { cur: number; path: number[] }[] = [];
+
+  q.push({ cur: start, path: [start] });
+
+  while (q.length > 0) {
+    const { cur, path } = q.shift()!;
+
+    if (cur === dest) {
+      res.push(path);
+      continue;
+    }
+
+    for (const nbr of adj[cur] ?? []) {
+      q.push({ cur: nbr, path: [...path, nbr] }); // extend the path
+    }
+  }
+
+  return res;
+}
+
+console.log(
+  allPathsSourceTarget([[1, 2], [3], [3], []]),
+  "// [[0,1,3],[0,2,3]]"
+);
+
+console.log(
+  allPathsSourceTarget([[4, 3, 1], [3, 2, 4], [3], [4], []]),
+  "// [[0,4],[0,3,4],[0,1,3,4],[0,1,4],[0,1,2,3,4]]"
+);
+
+// ----------------------------------------------------------------
+
+// Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+
+// An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+// Input: grid = [
+//   ["1","1","0","0","0"],
+//   ["1","1","0","0","0"],
+//   ["0","0","1","0","0"],
+//   ["0","0","0","1","1"]
+// ]
+// Output: 3
+
+function numIslands(grid: string[][]): number {
+  // g[i][j] represents cell in row i and column j
+  // up and down plays with row
+  // left and right plays with column
+
+  const m = grid.length;
+  if (m === 0) return 0;
+  const n = grid[0].length;
+
+  let count = 0;
+
+  // first moving row(y), second moving column(x)
+  const DIRS: ReadonlyArray<readonly [number, number]> = [
+    [-1, 0], // up
+    [1, 0], // down
+    [0, -1], // left
+    [0, 1], // rig ht
+  ];
+
+  for (let r = 0; r < m; r++) {
+    for (let c = 0; c < n; c++) {
+      if (grid[r][c] !== "1") continue;
+
+      // find an island. sink it and it's neighbors
+      count++;
+      grid[r][c] = "0";
+      const queue: Array<[number, number]> = [[r, c]];
+
+      while (queue.length) {
+        const [cr, cc] = queue.shift()!;
+        for (const [dr, dc] of DIRS) {
+          const nr = cr + dr,
+            nc = cc + dc;
+          if (nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] === "1") {
+            grid[nr][nc] = "0"; // sink
+            queue.push([nr, nc]); // enqueue neighbor
+          }
+        }
+      }
+    }
+  }
+
+  return count;
+}
+
+console.log(
+  numIslands([
+    ["1", "1", "0", "0", "0"],
+    ["1", "1", "0", "0", "0"],
+    ["0", "0", "1", "0", "0"],
+    ["0", "0", "0", "1", "1"],
+  ]),
+  "// 3"
+);
 
 // ----------------------------------------------------------------
 
@@ -335,127 +514,3 @@ console.log(
 );
 
 // ----------------------------------------------------------------
-
-// A topological order of a directed graph is an ordering of its nodes such that for every directed edge u → v, node u comes before node v in the order. so you need to process u before v.
-// It only makes sense in a DAG (Directed Acyclic Graph).
-// If the graph has a cycle, no valid topological order exists.
-
-// 797. All Paths From Source to Target
-// Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1 and return them in any order.
-// The graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).
-// Input: graph = [[1,2],[3],[3],[]]
-// Output: [[0,1,3],[0,2,3]]
-// Explanation: There are two paths: 0 -> 1 -> 3 and 0 -> 2 -> 3.
-function allPathsSourceTarget(graph: number[][]): number[][] {
-  // what you need to be aware of:
-  // given arr is already adj list. all you need to do is to convert to object-based adj list
-  // start is 0 and destination is n - 1
-  // not just one start-to-dest path, but all start-to-dest paths
-  // note that input is a DAG. no cycles. last node has no outgoing edges
-
-  const dest = graph.length - 1;
-  const start = 0;
-
-  // Build object-based adjacency list from the given graph array
-  const adj: Record<number, number[]> = {};
-  for (let i = 0; i < graph.length; i++) {
-    adj[i] = graph[i] ? [...graph[i]] : [];
-  }
-
-  const res: number[][] = []; // [[start, ..., dest], ...]
-  const q: number[][] = [[start]]; // [[start, ..., ...], ...]
-
-  while (q.length > 0) {
-    const path = q.shift()!;
-    const last = path[path.length - 1];
-
-    if (last === dest) {
-      res.push(path);
-      continue;
-    }
-
-    for (const nbr of adj[last] ?? []) {
-      q.push([...path, nbr]); // extend the path
-    }
-  }
-
-  return res;
-}
-
-console.log(
-  allPathsSourceTarget([[1, 2], [3], [3], []]),
-  "// [[0,1,3],[0,2,3]]"
-);
-
-console.log(
-  allPathsSourceTarget([[4, 3, 1], [3, 2, 4], [3], [4], []]),
-  "// [[0,4],[0,3,4],[0,1,3,4],[0,1,4],[0,1,2,3,4]]"
-);
-
-// ----------------------------------------------------------------
-
-// Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
-
-// An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
-// Input: grid = [
-//   ["1","1","0","0","0"],
-//   ["1","1","0","0","0"],
-//   ["0","0","1","0","0"],
-//   ["0","0","0","1","1"]
-// ]
-// Output: 3
-
-function numIslands(grid: string[][]): number {
-  // g[i][j] represents cell in row i and column j
-  // up and down plays with row
-  // left and right plays with column
-
-  const m = grid.length;
-  if (m === 0) return 0;
-  const n = grid[0].length;
-
-  let count = 0;
-
-  // first moving row(y), second moving column(x)
-  const DIRS: ReadonlyArray<readonly [number, number]> = [
-    [-1, 0], // up
-    [1, 0], // down
-    [0, -1], // left
-    [0, 1], // rig ht
-  ];
-
-  for (let r = 0; r < m; r++) {
-    for (let c = 0; c < n; c++) {
-      if (grid[r][c] !== "1") continue;
-
-      // find an island. sink it and it's neighbors
-      count++;
-      grid[r][c] = "0";
-      const queue: Array<[number, number]> = [[r, c]];
-
-      while (queue.length) {
-        const [cr, cc] = queue.shift()!;
-        for (const [dr, dc] of DIRS) {
-          const nr = cr + dr,
-            nc = cc + dc;
-          if (nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] === "1") {
-            grid[nr][nc] = "0"; // sink
-            queue.push([nr, nc]); // enqueue neighbor
-          }
-        }
-      }
-    }
-  }
-
-  return count;
-}
-
-console.log(
-  numIslands([
-    ["1", "1", "0", "0", "0"],
-    ["1", "1", "0", "0", "0"],
-    ["0", "0", "1", "0", "0"],
-    ["0", "0", "0", "1", "1"],
-  ]),
-  "// 3"
-);

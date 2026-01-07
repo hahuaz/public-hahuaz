@@ -29,6 +29,7 @@ function countOccurrences(arr1: number[], arr2: number[]): number {
 
 console.log(countOccurrences([1, 2, 1, 2, 3], [1, 2])); // 2
 
+// return the starting index of the first occurrence of needle in haystack
 function strStr(haystack: string, needle: string): number {
   if (needle.length === 0) return 0;
   if (needle.length === 1) return haystack.indexOf(needle);
